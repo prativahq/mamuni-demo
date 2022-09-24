@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import { Form } from 'react-bootstrap';
 // import DatePicker from "react-datepicker";
 import { Dropdown, ButtonGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 // import "react-datepicker/dist/react-datepicker.css";
 
@@ -352,7 +353,9 @@ export class Dashboard extends Component {
           </div>
         </div>
         <div style={{ marginBottom: "30px" , display: "flex" , flexDirection: "row" }}>
+          <Link to={"/cards"}>
           <button type="button" className="btn btn-gradient-success btn-fw">New Insertion order</button>
+          </Link>
           <DatePicker className="form-control w-100"
             selected={this.state.startDate}
             onChange={this.handleChange}

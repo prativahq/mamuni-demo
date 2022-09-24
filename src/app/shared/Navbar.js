@@ -14,7 +14,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <Link className="navbar-brand brand-logo" to="/"><img style={{ height: "50px", width: "calc(300px - 120px )" }} src={require('../../assets/images/logo.jpeg')} alt="logo" /></Link>
+          <Link className="navbar-brand brand-logo" to="/"><img style={{ height: "50px", width: "calc(300px - 120px )" }} src={require('../../assets/images/brand_icons/prommatic-logo.png')} alt="logo" /></Link>
           {/* <Link className="navbar-brand brand-logo-mini" to="/"><img src={require('../../assets/images/logo.jpeg')} alt="logo" /></Link> */}
         </div>
         <div className="navbar-menu-wrapper d-flex align-items-stretch">

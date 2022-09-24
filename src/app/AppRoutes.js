@@ -2,13 +2,12 @@ import React, { Component, Suspense, lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Spinner from '../app/shared/Spinner';
+import Insertion_cards from './insertion-cards/Insertion_cards';
 
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
 const Reports = lazy(() => import('./reports/reports'));
-
-
-
+const Insertion_Form = lazy(() => import('./Insertion-Form/Order_Forms'));
 const Buttons = lazy(() => import('./basic-ui/Buttons'));
 const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
 const Typography = lazy(() => import('./basic-ui/Typography'));
@@ -42,7 +41,9 @@ class AppRoutes extends Component {
     return (
       <Suspense fallback={<Spinner />}>
         <Switch>
+          <Route exact path={"/"} component={Dashboard} />
           <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/insertion-form" component={Insertion_Form} />
 
 
           <Route exact path="/basic-ui/buttons" component={Buttons} />
@@ -61,6 +62,7 @@ class AppRoutes extends Component {
           <Route exact path="/charts/chart-js" component={ChartJs} />
 
           <Route exact path="/reports" component={Reports} />
+          <Route exact path="/cards" component={Insertion_cards} />
 
 
           <Route exact path="/user-pages/login-1" component={Login} />
@@ -68,13 +70,10 @@ class AppRoutes extends Component {
           <Route exact path="/user-pages/lockscreen" component={Lockscreen} />
 
           {/* <Route exact path="/error-pages/error-404" component={Error404} /> */}
-          <Route path="*" component={Error404} />
+          {/* <Route path="*" component={Error404} /> */}
           <Route exact path="/error-pages/error-500" component={Error500} />
 
           <Route exact path="/general-pages/blank-page" component={BlankPage} />
-
-
-          <Redirect to="/dashboard" />
         </Switch>
       </Suspense>
     );
