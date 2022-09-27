@@ -6,6 +6,8 @@ import { Form } from 'react-bootstrap';
 // import DatePicker from "react-datepicker";
 import { Dropdown, ButtonGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth'
 
 // import "react-datepicker/dist/react-datepicker.css";
 
@@ -241,6 +243,27 @@ export class Dashboard extends Component {
   }
 
   render() {
+    const manageuser = () => {
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          const uid = user.uid;
+          // window.location.href = "/dashboard";
+          // ...
+        } else {
+          // User is signed out
+          // <Redirect to={"/"} />
+          window.location.href = "/";
+          // ...
+        }
+      });
+    }
+
+    setInterval(() => {
+      manageuser()
+    }, 1000)
     return (
       <div>
         {/* <div className="proBanner">
@@ -352,9 +375,9 @@ export class Dashboard extends Component {
             </div> */}
           </div>
         </div>
-        <div style={{ marginBottom: "30px" , display: "flex" , flexDirection: "row" }}>
+        <div style={{ marginBottom: "30px", display: "flex", flexDirection: "row" }}>
           <Link to={"/cards"}>
-          <button type="button" className="btn btn-gradient-success btn-fw">New Insertion order</button>
+            <button type="button" className="btn btn-gradient-success btn-fw">New Insertion order</button>
           </Link>
           <DatePicker className="form-control w-100"
             selected={this.state.startDate}

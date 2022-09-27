@@ -1,12 +1,35 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import bsCustomFileInput from 'bs-custom-file-input'
 import { Dropdown, ButtonGroup } from 'react-bootstrap';
 import { useState } from 'react';
 import './Order.css';
+import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth'
 
 const Order_Forms = () => {
+    const manageuser = () => {
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                // window.location.href = "/dashboard";
+                // ...
+            } else {
+                // User is signed out
+                // <Redirect to={"/"} />
+                window.location.href = "/";
+                // ...
+            }
+        });
+    }
+
+    useEffect(() => {
+        manageuser();
+    }, []);
     const [startDate, setstartdate] = useState(new Date());
     const [limit, setlimit] = useState("");
     const [Target, setTarget] = useState("");
@@ -52,7 +75,7 @@ const Order_Forms = () => {
                             <label className="col-sm-3 col-form-label">End Date</label>
                             <Form.Control type="date" className="form-control" id="exampleInputName1" placeholder="Budget" defaultValue={new Date()} />
                             <div class="mt-4 alert alert-info"
-                            style={{padding: "20px 20px"}} role="alert">
+                                style={{ padding: "20px 20px" }} role="alert">
                                 Your campaign's planned budget couldn't be loaded, so it's possible this budget segment will exceed your planned campaign budget
                             </div>
 
@@ -175,7 +198,7 @@ const Order_Forms = () => {
                     <div className="card-body">
                         <h4 className="card-title">Targeting</h4>
                         <Form.Group>
-                        <h6 style={{ marginLeft: "15px" }}><span> <i className="mdi mdi-settings"></i></span> New line items in this insertion order will inherit these settings. Targeting set on insertion orders doesn't apply to YouTube & partners line items.</h6>
+                            <h6 style={{ marginLeft: "15px" }}><span> <i className="mdi mdi-settings"></i></span> New line items in this insertion order will inherit these settings. Targeting set on insertion orders doesn't apply to YouTube & partners line items.</h6>
                             <Dropdown>
                                 <Dropdown.Toggle variant="btn" id="dropdownMenuOutlineButton1">
                                     Add Targeting

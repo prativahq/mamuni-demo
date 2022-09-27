@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component , useEffect} from 'react';
 import { Line, Bar, Doughnut, Pie, Scatter } from 'react-chartjs-2';
 import { ProgressBar } from 'react-bootstrap';
+import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth'
 
 export class ChartJs extends Component {
 
@@ -188,6 +190,27 @@ export class ChartJs extends Component {
   }
 
   render() {
+    const manageuser = () => {
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          const uid = user.uid;
+          // window.location.href = "/dashboard";
+          // ...
+        } else {
+          // User is signed out
+          // <Redirect to={"/"} />
+          window.location.href = "/";
+          // ...
+        }
+      });
+    }
+  
+    setInterval(() => {
+      manageuser();
+    }, 1000);
     return (
       <div>
         <div className="page-header">

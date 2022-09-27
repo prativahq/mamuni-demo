@@ -28,7 +28,7 @@ const Error404 = lazy(() => import('./error-pages/Error404'));
 const Error500 = lazy(() => import('./error-pages/Error500'));
 
 const Login = lazy(() => import('./user-pages/Login'));
-const Register1 = lazy(() => import('./user-pages/Register'));
+const Register = lazy(() => import('./user-pages/Register'));
 const Lockscreen = lazy(() => import('./user-pages/Lockscreen'));
 
 const BlankPage = lazy(() => import('./general-pages/BlankPage'));
@@ -41,7 +41,7 @@ class AppRoutes extends Component {
     return (
       <Suspense fallback={<Spinner />}>
         <Switch>
-          <Route exact path={"/"} component={Dashboard} />
+          <Route exact path={"/"} component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/insertion-form" component={Insertion_Form} />
 
@@ -65,9 +65,9 @@ class AppRoutes extends Component {
           <Route exact path="/cards" component={Insertion_cards} />
 
 
-          <Route exact path="/user-pages/login-1" component={Login} />
-          <Route exact path="/user-pages/register-1" component={Register1} />
-          <Route exact path="/user-pages/lockscreen" component={Lockscreen} />
+          {/* <Route exact path="/user-pages/login-1" component={Login} /> */}
+          <Route exact path="/register" component={Register} />
+          {/* <Route exact path="/user-pages/lockscreen" component={Lockscreen} /> */}
 
           {/* <Route exact path="/error-pages/error-404" component={Error404} /> */}
           {/* <Route path="*" component={Error404} /> */}

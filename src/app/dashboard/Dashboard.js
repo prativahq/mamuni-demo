@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { ProgressBar } from 'react-bootstrap';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import DatePicker from "react-datepicker";
+import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+
 
 // import "react-datepicker/dist/react-datepicker.css";
 
@@ -237,6 +240,25 @@ export class Dashboard extends Component {
   }
 
   render() {
+    const manageuser = () => {
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          const uid = user.uid;
+          // window.location.href = "/dashboard";
+          // ...
+        } else {
+          // User is signed out
+          // <Redirect to={"/"} />
+          window.location.href = "/";
+          // ...
+        }
+      });
+    }
+
+    setInterval(() => manageuser(), 1000);
     return (
       <div>
         {/* <div className="proBanner">
@@ -250,7 +272,7 @@ export class Dashboard extends Component {
         </div> */}
         <div className="page-header">
           <h3 className="page-title">
-            <span className="page-title-icon bg-gradient-primary text-white mr-2">
+            <span onClick={() => console.log(auth.currentUser)} className="page-title-icon bg-gradient-primary text-white mr-2">
               <i className="mdi mdi-home"></i>
             </span> Overview </h3>
           {/* <nav aria-label="breadcrumb">
@@ -368,7 +390,7 @@ export class Dashboard extends Component {
                       <tr>
                         <td>
                           Carx_Aug Campaign {"(ID: 52611425)"} <br />
-                          <span  className="insertion_link">Crax_SongLiv_20 Sec video_Sep {"(ID: 52611425)"}</span></td>
+                          <span className="insertion_link">Crax_SongLiv_20 Sec video_Sep {"(ID: 52611425)"}</span></td>
                         <td> -- </td>
                         <td>
                           --
@@ -379,7 +401,7 @@ export class Dashboard extends Component {
                       <tr>
                         <td>
                           Carx_Aug Campaign {"(ID: 52611425)"} <br />
-                          <span  className="insertion_link">Crax_Gaming_20 Sec video_Sep {"(ID: 10090303453)"}</span></td>
+                          <span className="insertion_link">Crax_Gaming_20 Sec video_Sep {"(ID: 10090303453)"}</span></td>
                         <td> -- </td>
                         <td>
                           --
@@ -390,7 +412,7 @@ export class Dashboard extends Component {
                       <tr>
                         <td>
                           Carx_Aug Campaign {"(ID: 52611425)"} <br />
-                          <span  className="insertion_link">Crax_SongLiv_20 Sec video_Sep {"(ID: 100869318)"}</span></td>
+                          <span className="insertion_link">Crax_SongLiv_20 Sec video_Sep {"(ID: 100869318)"}</span></td>
                         <td> -- </td>
                         <td>
                           --
@@ -401,7 +423,7 @@ export class Dashboard extends Component {
                       <tr>
                         <td>
                           Carx_Aug Campaign {"(ID: 52611425)"} <br />
-                          <span  className="insertion_link">Crax_SongLiv_20 Sec video {"(GIF 2)"} {"(ID: 1008349391)"}</span></td>
+                          <span className="insertion_link">Crax_SongLiv_20 Sec video {"(GIF 2)"} {"(ID: 1008349391)"}</span></td>
                         <td> -- </td>
                         <td>
                           --
