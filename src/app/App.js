@@ -18,13 +18,17 @@ const App = () => {
   let footerComponent = <Footer />;
 
   const [userid, setuserid] = useState(null);
+  const [photo, setphoto] = useState(null);
+  const [uidd, setuid] = useState(null);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        setuserid(user.photoURL);
+          const uid = user.uid;
+          setuid(uid);
+          setphoto(user.photoURL);
+          setuserid(user.uid);
         // ...
       } else {
         // User is signed out
@@ -38,12 +42,12 @@ const App = () => {
   return (
     <>
       <div className="container-scroller">
-        {userid != null && <Navbar photo={userid} />}
+        {userid != null && <Navbar photo={photo} />}
         <div className="container-fluid page-body-wrapper">
           {userid != null && sidebarComponent}
           <div className="main-panel">
             {userid != null && SettingsPanelComponent}
-            <div className="content-wrapper" style={{ width: "100vw"}}>
+            <div className="content-wrapper">
               <AppRoutes />
             </div>
           </div>

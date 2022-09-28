@@ -2,8 +2,8 @@ import React, { Component, useEffect, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Trans } from 'react-i18next';
-import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../firebase";
+import { doc, onSnapshot, getDoc } from "firebase/firestore";
 
 
 const Navbar = (props) => {
@@ -13,6 +13,28 @@ const Navbar = (props) => {
   function toggleRightSidebar() {
     document.querySelector('.right-sidebar').classList.toggle('open');
   }
+
+  const [companyName, setCompanyName] = useState("");
+  const [authid , setauid] = useState(auth.currentUser.uid);
+
+  async function fetchCompanyName() {
+    const docRef = doc(db, "CompanyDetails",  authid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setCompanyName(docSnap.data().CompanyName);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+      // setCompanyName(Name);
+      // return unsub;
+    }
+  }
+
+  useEffect(() => {
+    fetchCompanyName();
+  }, []);
 
 
 
@@ -31,7 +53,7 @@ const Navbar = (props) => {
             <div className="input-group">
               <div className="input-group-prepend bg-transparent">
               </div>
-              <h3 style={{ color: "black" }}>DWAO c/o Self Service</h3>
+              <h3 style={{ color: "black" }}>{companyName}</h3>
             </div>
           </form>
         </div>
@@ -42,7 +64,7 @@ const Navbar = (props) => {
             </a>
           </li>
           <li className="nav-item nav-logout d-none d-lg-block">
-            <a className="nav-link" href="!#" onClick={event => event.preventDefault()}>
+            <a className="nav-link" href="#!" onClick={e => e.preventDefault()}>
               <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-file-document-box menu-icon"></i>
             </a>
           </li>
@@ -63,8 +85,14 @@ const Navbar = (props) => {
                   <i className="mdi mdi-account-card-details mr-2 text-success"></i>
                   <Trans>Profile</Trans>
                 </Dropdown.Item>
+                <Dropdown.Item href="http://localhost:3000/google">
+                  <a style={{ textDecoration: "none", color: "black" }}>
+                    <i className="mdi mdi-access-point mr-2 text-info"></i>
+                    <Trans>Activate Token</Trans>
+                  </a>
+                </Dropdown.Item>
                 <Dropdown.Item href="!#" onClick={evt => evt.preventDefault()}>
-                  <Link onClick={() => auth.signOut()} style={{ textDecoration: "none" }}>
+                  <Link onClick={() => auth.signOut()} style={{ textDecoration: "none", color: "black" }}>
                     <i className="mdi mdi-logout mr-2 text-primary"></i>
                     <Trans>Signout</Trans>
                   </Link>

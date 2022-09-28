@@ -3,7 +3,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Spinner from '../app/shared/Spinner';
 import Insertion_cards from './insertion-cards/Insertion_cards';
-
+import { auth, db, storage } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth'
+import { useState } from 'react';
+import { collection, getDocs, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { useEffect } from 'react';
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
 const Reports = lazy(() => import('./reports/reports'));
@@ -36,48 +40,50 @@ const BlankPage = lazy(() => import('./general-pages/BlankPage'));
 
 
 
-class AppRoutes extends Component {
-  render() {
-    return (
-      <Suspense fallback={<Spinner />}>
-        <Switch>
-          <Route exact path={"/"} component={Login} />
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/insertion-form" component={Insertion_Form} />
+const AppRoutes = (props) => {
+
+ 
 
 
-          <Route exact path="/basic-ui/buttons" component={Buttons} />
-          <Route exact path="/basic-ui/dropdowns" component={Dropdowns} />
-          <Route exact path="/basic-ui/typography" component={Typography} />
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Switch>
+        <Route exact path={"/"} component={Login} />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/insertion-form" component={Insertion_Form} />
 
 
-          <Route exact path="/form-Elements/basic-elements" component={BasicElements} />
-
-          <Route exact path="/tables/basic-table" component={BasicTable} />
-
-
-          <Route exact path="/icons/mdi" component={Mdi} />
+        <Route exact path="/basic-ui/buttons" component={Buttons} />
+        <Route exact path="/basic-ui/dropdowns" component={Dropdowns} />
+        <Route exact path="/basic-ui/typography" component={Typography} />
 
 
-          <Route exact path="/charts/chart-js" component={ChartJs} />
+        <Route exact path="/form-Elements/basic-elements" component={BasicElements} />
 
-          <Route exact path="/reports" component={Reports} />
-          <Route exact path="/cards" component={Insertion_cards} />
+        <Route exact path="/tables/basic-table" component={BasicTable} />
 
 
-          {/* <Route exact path="/user-pages/login-1" component={Login} /> */}
-          <Route exact path="/register" component={Register} />
-          {/* <Route exact path="/user-pages/lockscreen" component={Lockscreen} /> */}
+        <Route exact path="/icons/mdi" component={Mdi} />
 
-          {/* <Route exact path="/error-pages/error-404" component={Error404} /> */}
-          {/* <Route path="*" component={Error404} /> */}
-          <Route exact path="/error-pages/error-500" component={Error500} />
 
-          <Route exact path="/general-pages/blank-page" component={BlankPage} />
-        </Switch>
-      </Suspense>
-    );
-  }
+        <Route exact path="/charts/chart-js" component={ChartJs} />
+
+        <Route exact path="/reports" component={Reports} />
+        <Route exact path="/cards" component={Insertion_cards} />
+
+
+        {/* <Route exact path="/user-pages/login-1" component={Login} /> */}
+        <Route exact path="/register" component={Register} />
+        {/* <Route exact path="/user-pages/lockscreen" component={Lockscreen} /> */}
+
+        {/* <Route exact path="/error-pages/error-404" component={Error404} /> */}
+        {/* <Route path="*" component={Error404} /> */}
+        <Route exact path="/error-pages/error-500" component={Error500} />
+
+        <Route exact path="/general-pages/blank-page" component={BlankPage} />
+      </Switch>
+    </Suspense>
+  );
 }
 
 export default AppRoutes;

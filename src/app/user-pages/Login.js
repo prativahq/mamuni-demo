@@ -1,12 +1,12 @@
 import React, { Component, useEffect, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect , useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { auth } from '../firebase';
 import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
 
 const Login = () => {
-
+  const nav = useHistory();
   const [email, setemail] = useState("");
   const provider = new GoogleAuthProvider();
   const [password, setpassword] = useState("");
@@ -23,14 +23,16 @@ const Login = () => {
         const errorMessage = error.message;
       });
   }
-  
-  const manageuser = ()=>{
+
+  const manageuser = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
-        window.location.href = "/dashboard";
+
+         nav.push("/dashboard");
+        // }, 2000);
         // ...
       } else {
         // User is signed out
@@ -42,8 +44,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    const subs = manageuser();
-
+    manageuser();
     // return subs;
   }, []);
 
@@ -73,7 +74,7 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div style={{ width: "100vw" }}>
       <div className="d-flex align-items-center auth px-0">
         <div className="row w-100 justify-content-center">
           <div className="col-lg-4" style={{ width: "100%" }}>

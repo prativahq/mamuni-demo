@@ -1,19 +1,33 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from "firebase/firestore";
 
 const Register = () => {
 
   const [email, setemail] = useState("");
+  const [Name, setName] = useState("");
+  const [CompanyName, setCompanyName] = useState("");
   const [password, setPassowrd] = useState("");
 
   function createuser() {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        // console.log("dsfdfsdfdsflkdsjfajlfafhasjkfhasjkgbajk");
         console.log(user);
+        await setDoc(doc(db, "Company", CompanyName), {
+          Name: Name,
+          CompanyName: CompanyName,
+          Email: email
+        });
+        await setDoc(doc(db, "CompanyDetails", user.uid), {
+          Name: Name,
+          CompanyName: CompanyName,
+          Email: email
+        });
         // ...
       })
       .catch((error) => {
@@ -24,11 +38,14 @@ const Register = () => {
   }
 
 
+
+
+
   return (
-    <div>
+    <div style={{ width: "100vw" }}>
       <div className="d-flex align-items-center auth px-0">
         <div className="row w-100 justify-content-center">
-          <div className="col-lg-4" style={{width: "100%"}}>
+          <div className="col-lg-4" style={{ width: "100%" }}>
             <div className="auth-form-light text-left py-5 px-4 px-sm-5">
               <div className="brand-logo">
                 <img src={require("../../assets/images/prommatic-logo.png")} alt="logo" />
@@ -37,7 +54,10 @@ const Register = () => {
               <h6 className="font-weight-light">Signing up is easy. It only takes a few steps</h6>
               <form className="pt-3">
                 <div className="form-group">
-                  <input type="text" className="form-control form-control-lg" id="exampleInputUsername1" placeholder="Name" autoComplete={false} autoCapitalize={false} autoSave={false} />
+                  <input type="text" className="form-control form-control-lg" id="exampleInputUsername1" placeholder="Name" autoComplete={false} onChange={(e) => setName(e.target.value)} autoCapitalize={false} autoSave={false} />
+                </div>
+                <div className="form-group">
+                  <input type="text" className="form-control form-control-lg" id="exampleInputUsername1" placeholder="Company Name" autoComplete={false} onChange={(e) => setCompanyName(e.target.value)} autoCapitalize={false} autoSave={false} />
                 </div>
                 <div className="form-group">
                   <input type="email" className="form-control form-control-lg" id="exampleInputEmail1" onChange={(e) => setemail(e.target.value)} placeholder="Email" />
