@@ -1,12 +1,29 @@
-import React, { Component , useEffect} from 'react';
+import React, { Component, useEffect , useState } from 'react';
 import { Line, Bar, Doughnut, Pie, Scatter } from 'react-chartjs-2';
 import { ProgressBar } from 'react-bootstrap';
-import { auth } from '../firebase';
+import { auth , db} from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth'
+import { CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle, CButton } from '@coreui/react';
+import { Form } from 'react-bootstrap';
+import firebase from 'firebase/compat/app';
 
-export class ChartJs extends Component {
 
-  data = {
+const ChartJs = () => {
+  const [campaign, setcampaign] = useState({
+    CompanyName: "",
+    CampaignName: ""
+  });
+  const [visible, setVisible] = useState(false)
+
+  async function campaignCreate() {
+    db.collection('Company').doc(campaign.CompanyName).collection('Campaign').add({
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      CampaignName: campaign.CampaignName,
+      CompanyName: campaign.CompanyName,
+    });
+  }
+  
+  const data = {
     labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
     datasets: [{
       label: '# of Votes',
@@ -32,7 +49,7 @@ export class ChartJs extends Component {
     }]
   };
 
-  options = {
+ const options = {
     scales: {
       yAxes: [{
         ticks: {
@@ -51,7 +68,7 @@ export class ChartJs extends Component {
 
   };
 
-  areaData = {
+ const areaData = {
     labels: ["2013", "2014", "2015", "2016", "2017"],
     datasets: [{
       label: '# of Votes',
@@ -77,7 +94,7 @@ export class ChartJs extends Component {
     }]
   };
 
-  areaOptions = {
+ const areaOptions = {
     plugins: {
       filler: {
         propagate: true
@@ -85,7 +102,7 @@ export class ChartJs extends Component {
     }
   }
 
-  doughnutPieData = {
+ const doughnutPieData = {
     datasets: [{
       data: [30, 40, 30],
       backgroundColor: [
@@ -114,7 +131,7 @@ export class ChartJs extends Component {
     ]
   };
 
-  doughnutPieOptions = {
+  const doughnutPieOptions = {
     responsive: true,
     animation: {
       animateScale: true,
@@ -122,7 +139,7 @@ export class ChartJs extends Component {
     }
   };
 
-  scatterChartData = {
+  const scatterChartData = {
     datasets: [{
       label: 'First Dataset',
       data: [{
@@ -180,7 +197,7 @@ export class ChartJs extends Component {
     ]
   }
 
-  scatterChartOptions = {
+ const scatterChartOptions = {
     scales: {
       xAxes: [{
         type: 'linear',
@@ -189,47 +206,46 @@ export class ChartJs extends Component {
     }
   }
 
-  render() {
-    const manageuser = () => {
+  const manageuser = () => {
 
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          const uid = user.uid;
-          // window.location.href = "/dashboard";
-          // ...
-        } else {
-          // User is signed out
-          // <Redirect to={"/"} />
-          window.location.href = "/";
-          // ...
-        }
-      });
-    }
-  
-    setInterval(() => {
-      manageuser();
-    }, 1000);
-    return (
-      <div>
-        <div className="page-header">
-          {/* <h3 className="page-title">
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        // window.location.href = "/dashboard";
+        // ...
+      } else {
+        // User is signed out
+        // <Redirect to={"/"} />
+        window.location.href = "/";
+        // ...
+      }
+    });
+  }
+
+  setInterval(() => {
+    manageuser();
+  }, 1000);
+  return (
+    <div>
+      <div className="page-header">
+        {/* <h3 className="page-title">
                         Chart-js
                     </h3> */}
-          {/* <nav aria-label="breadcrumb">
+        {/* <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
                         <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Charts</a></li>
                         <li className="breadcrumb-item active" aria-current="page">Chart-js</li>
                         </ol>
                     </nav> */}
-        </div>
-        {/* <div className="row">
+      </div>
+      {/* <div className="row">
                     <div className="col-md-6 grid-margin stretch-card">
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Line Chart</h4>
-                                <Line data={this.data} options={this.options} />
+                                <Line data={data} options={options} />
                             </div>
                         </div>
                     </div>
@@ -237,43 +253,43 @@ export class ChartJs extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Bar Chart</h4>
-                                <Bar data={this.data} options={this.options} />    
+                                <Bar data={data} options={options} />    
                             </div>
                         </div>
                     </div>
                 </div> */}
-        <div className="row">
-          {/* <div className="col-md-6 grid-margin stretch-card">
+      <div className="row">
+        {/* <div className="col-md-6 grid-margin stretch-card">
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Area Chart</h4>
-                                <Line data={this.areaData} options={this.areaOptions} />
+                                <Line data={areaData} options={areaOptions} />
                             </div>
                         </div>
                     </div> */}
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Pie Chart</h4>
-                <Pie data={this.doughnutPieData} options={this.doughnutPieOptions} />
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Doughnut Chart</h4>
-                <Doughnut data={this.doughnutPieData} options={this.doughnutPieOptions} />
-              </div>
+        <div className="col-md-6 grid-margin stretch-card">
+          <div className="card">
+            <div className="card-body">
+              <h4 className="card-title">Pie Chart</h4>
+              <Pie data={doughnutPieData} options={doughnutPieOptions} />
             </div>
           </div>
         </div>
-        {/* <div className="row">
+        <div className="col-md-6 grid-margin stretch-card">
+          <div className="card">
+            <div className="card-body">
+              <h4 className="card-title">Doughnut Chart</h4>
+              <Doughnut data={doughnutPieData} options={doughnutPieOptions} />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div className="row">
           <div className="col-md-6 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Pie Chart</h4>
-                <Pie data={this.doughnutPieData} options={this.doughnutPieOptions} />
+                <Pie data={doughnutPieData} options={doughnutPieOptions} />
               </div>
             </div>
           </div>
@@ -281,65 +297,82 @@ export class ChartJs extends Component {
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Scatter Chart</h4>
-                <Scatter data={this.scatterChartData} options={this.scatterChartOptions} />
+                <Scatter data={scatterChartData} options={scatterChartOptions} />
               </div>
             </div>
           </div>
         </div> */}
-        <div style={{ marginBottom: "30px" }}>
-          <button type="button" className="btn btn-gradient-success btn-fw">CREATE ADVERTISER</button>
-        </div>
-        <div className="col-lg-12 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              {/* <h4 className="card-title">Bordered table</h4> */}
-              <div style={{display: "flex" , flexDirection:"row", justifyContent: "start", gap:30}}>
-                <div className='card-description'>filter</div>
-                <div style={{color: "#E0E0E0" , borderRadius: "30px"}} className="status">
-                <span style={{paddingTop: "20px"}}>Status: Active</span>
-                <i style={{marginLeft: "5px"}} color='#616161' class="remove mdi mdi-close-circle-outline"></i></div>
-                <div className='card-description'>Add filter</div>
-              </div>
+      <div style={{ marginBottom: "30px" }}>
+        <CButton onClick={() => setVisible(!visible)}>Create Campaign</CButton>
+        <CModal visible={visible} onClose={() => setVisible(false)}>
+          <CModalHeader onClose={() => setVisible(false)}>
+            <CModalTitle>Campaign Details</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <label htmlFor="exampleInputName1">Company Name</label>
+            <Form.Control onChange={(e) => setcampaign({ ...campaign, CompanyName: e.target.value })} type="text" className="form-control" id="exampleInputName1" placeholder="Company Name" />
+            <label htmlFor="exampleInputName2" className='mt-4'>Campaign Name</label>
+            <Form.Control type="text" onChange={(e) => setcampaign({ ...campaign, CampaignName: e.target.value })} className="form-control" id="exampleInputName2" placeholder="Campaign Name" />
+          </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setVisible(false)}>
+              Close
+            </CButton>
+            <CButton color="primary" onClick={campaignCreate}>Create</CButton>
+          </CModalFooter>
+        </CModal>
+      </div>
+      <div className="col-lg-12 grid-margin stretch-card">
+        <div className="card">
+          <div className="card-body">
+            {/* <h4 className="card-title">Bordered table</h4> */}
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "start", gap: 30 }}>
+              <div className='card-description'>filter</div>
+              <div style={{ color: "#E0E0E0", borderRadius: "30px" }} className="status">
+                <span style={{ paddingTop: "20px" }}>Status: Active</span>
+                <i style={{ marginLeft: "5px" }} color='#616161' class="remove mdi mdi-close-circle-outline"></i></div>
+              <div className='card-description'>Add filter</div>
+            </div>
 
-              <div className="table-responsive">
-                <table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th rowSpan={"2"}> <div className="form-check">
-                        <label className="form-check-label text-muted">
-                          <input type="checkbox" className="form-check-input" />
-                          <i className="input-helper"></i>
-                        </label>
-                      </div> </th>
-                      <th colSpan={"3"}> Delivery and Interactions </th>
-                      <th colSpan={"2"}> Pacing </th>
-                      <th colSpan={"1"}> Insertion Order Status </th>
-                    </tr>
-                    <tr>
-                      <th>Name</th>
-                      <th>Impressions</th>
-                      <th>Revenue</th>
-                      <th>Budget At risk</th>
-                      <th>Current budget</th>
-                      <th>Underpacing/Total Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td> <div className="form-check">
-                        <label className="form-check-label text-muted">
-                          <input type="checkbox" className="form-check-input" />
-                          <i className="input-helper"></i>
-                        </label>
-                      </div> </td>
-                      <td style={{ color: "blue" }} className="text-link"> Upswiit </td>
-                      <td> <span className='card-description'>884535039</span> 1,970,023 </td>
-                      <td> ₹28,043.68 </td>
-                      <td> ₹291,978.11 </td>
-                      <td> ₹870,120,35 </td>
-                      <td> <span className='text-link'>2</span>/9 </td>
-                    </tr>
-                    {/* <tr>
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th rowSpan={"2"}> <div className="form-check">
+                      <label className="form-check-label text-muted">
+                        <input type="checkbox" className="form-check-input" />
+                        <i className="input-helper"></i>
+                      </label>
+                    </div> </th>
+                    <th colSpan={"3"}> Delivery and Interactions </th>
+                    <th colSpan={"2"}> Pacing </th>
+                    <th colSpan={"1"}> Insertion Order Status </th>
+                  </tr>
+                  <tr>
+                    <th>Name</th>
+                    <th>Impressions</th>
+                    <th>Revenue</th>
+                    <th>Budget At risk</th>
+                    <th>Current budget</th>
+                    <th>Underpacing/Total Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> <div className="form-check">
+                      <label className="form-check-label text-muted">
+                        <input type="checkbox" className="form-check-input" />
+                        <i className="input-helper"></i>
+                      </label>
+                    </div> </td>
+                    <td style={{ color: "blue" }} className="text-link"> Upswiit </td>
+                    <td> <span className='card-description'>884535039</span> 1,970,023 </td>
+                    <td> ₹28,043.68 </td>
+                    <td> ₹291,978.11 </td>
+                    <td> ₹870,120,35 </td>
+                    <td> <span className='text-link'>2</span>/9 </td>
+                  </tr>
+                  {/* <tr>
                       <td> <div className="form-check">
                         <label className="form-check-label text-muted">
                           <input type="checkbox" className="form-check-input" />
@@ -367,7 +400,7 @@ export class ChartJs extends Component {
                       <td> $138.00 </td>
                       <td> Apr 12, 2015 </td>
                     </tr> */}
-                    {/* <tr>
+                  {/* <tr>
                       <td> 4 </td>
                       <td> Peter Meggik </td>
                       <td>
@@ -404,15 +437,15 @@ export class ChartJs extends Component {
                       <td> $ 150.00 </td>
                       <td> June 16, 2015 </td>
                     </tr> */}
-                  </tbody>
-                </table>
-              </div>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
+
 
 export default ChartJs

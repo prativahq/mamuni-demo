@@ -213,7 +213,7 @@ const Reports = () => {
         <Link to={"/cards"}>
           <button type="button" className="btn btn-gradient-success btn-fw">New Insertion order</button>
         </Link>
-        <CButton onClick={() => setVisible(!visible)}>Create Campaign</CButton>
+        {/* <CButton onClick={() => setVisible(!visible)}>Create Campaign</CButton>
         <CModal visible={visible} onClose={() => setVisible(false)}>
           <CModalHeader onClose={() => setVisible(false)}>
             <CModalTitle>Campaign Details</CModalTitle>
@@ -230,7 +230,7 @@ const Reports = () => {
             </CButton>
             <CButton color="primary" onClick={campaignCreate}>Create</CButton>
           </CModalFooter>
-        </CModal>
+        </CModal> */}
         <DatePicker className="form-control w-100"
           selected={startdate}
           onChange={e => setstartdate(e)}
