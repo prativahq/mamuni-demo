@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { collection, getDocs, doc, getDoc, onSnapshot } from "firebase/firestore";
 import firebase from 'firebase/compat/app';
 import { useEffect } from 'react';
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL , listAll } from "firebase/storage";
 import { v4 as uuidv4 } from 'uuid';
 import { useLayoutEffect } from 'react';
 
@@ -27,8 +27,8 @@ import { useLayoutEffect } from 'react';
 const Reports = () => {
 
   const [authid, setauthid] = useState("");
-  const [companyName , setCompanyName] = useState("Kile");
-  const [test , settest] = useState({});
+  const [companyName, setCompanyName] = useState("Kile");
+  const [test, settest] = useState({});
   function authidGenerator() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -38,7 +38,9 @@ const Reports = () => {
         db.collection("CompanyDetails").doc(uid)
           .onSnapshot((doc) => {
             console.log("CompanyName data: ", doc.data());
-            settest(doc.data());
+            console.log((doc.data().CompanyName));
+            setCompanyName(doc.data().CompanyName);
+            console.log(companyName);
           });
         // ...
       } else {
@@ -47,12 +49,11 @@ const Reports = () => {
       }
     });
 
-    setCompanyName(test.CompanyName);
   }
-
-  useEffect(() => {
-    authidGenerator();
-  }, []);
+  authidGenerator();
+  // useEffect(() => {
+  //   authidGenerator();
+  // }, []);
 
   const [startdate, setstartdate] = useState(new Date());
   const CompanyData = [];
@@ -161,9 +162,6 @@ const Reports = () => {
     return unsubscribe;
   }
 
-
-
-
   useEffect(() => {
     FetchCompanyData();
     FetchReportData();
@@ -205,7 +203,7 @@ const Reports = () => {
     <div>
       <div className="page-header">
         <h3 className="page-title">
-          <span onClick={()=>console.log(test)} className="page-title-icon bg-gradient-primary text-white mr-2">
+          <span onClick={() => console.log(test)} className="page-title-icon bg-gradient-primary text-white mr-2">
             <i className="mdi mdi-file-document"></i>
           </span> Reports </h3>
       </div>
