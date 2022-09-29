@@ -164,6 +164,15 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Resources
+
+| Techs | Use in  Project | Resources |
+|--------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------|
+| DV360 API | Used to Create and Fetch the insertion order details from DV Platform                                  | [Link-1](https://developers.google.com/display-video/api/guides/getting-started/overview) , [Link-2](https://developers.google.com/display-video/api/reference/rest/v1/advertisers.insertionOrders) , [Link3](https://developers.google.com/display-video/api/guides/managing-line-items/resources#create_an_insertion_order) |
+| Google OAuth2      | Used to authenticate the user and generating the refresh and access token for user , for DV Api authorization       | [Link](https://github.com/googleapis/google-api-nodejs-client)         |
+| Firestore     | Storing the data with robust nested cycle as per the company name. | [Link](https://firebase.google.com/docs/firestore)                                           |
+| Firebase Storage  | For Storing the CSV files and make available to user                                           | [Link](https://firebase.google.com/docs/storage)  |
+
 <!-- CONTACT -->
 ## Contact
 
