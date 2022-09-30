@@ -89,7 +89,7 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 2. Now install all npm packages.
    ```sh
-    npm i 
+    npm install
    ```
    
 3. Now you have define own firebase project config at `firebase/firebaseconfig.js`.
@@ -178,7 +178,7 @@ Don't forget to give the project a star! Thanks again!
 
 Developed By - [Parentheses Labs](http://parentheses.co.in/)
 
-Developer - [Pranshu](pranshujain0111@gmail.com)
+Developer - [Pranshu](https://pranshuportfolio.netlify.app)
 
 Project Link: [Upwswiit Promatic](https://prommatic.netlify.app)
 
