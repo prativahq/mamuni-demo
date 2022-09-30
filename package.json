@@ -19,6 +19,7 @@
     "nouislider-react": "^3.3.2",
     "react": "^16.9.0",
     "react-ace": "^7.0.4",
+    "react-app-rewired": "^2.2.1",
     "react-beautiful-dnd": "^11.0.5",
     "react-bootstrap": "^1.0.0-beta.12",
     "react-bootstrap-editable": "^0.5.1",
@@ -54,15 +55,16 @@
     "react-svg-gauge": "^1.0.10",
     "react-table": "^6.10.3",
     "react-tag-autocomplete": "^5.11.1",
+    "react-toastify": "^9.0.8",
     "react-treebeard": "^3.2.4",
     "react-trello": "^2.2.3",
     "sweetalert2-react": "^0.8.3",
     "uuid": "^9.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

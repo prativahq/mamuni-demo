@@ -1,11 +1,13 @@
-import React, { Component, useEffect , useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Line, Bar, Doughnut, Pie, Scatter } from 'react-chartjs-2';
 import { ProgressBar } from 'react-bootstrap';
-import { auth , db} from '../firebase';
+import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth'
 import { CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle, CButton } from '@coreui/react';
 import { Form } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const ChartJs = () => {
@@ -20,9 +22,32 @@ const ChartJs = () => {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       CampaignName: campaign.CampaignName,
       CompanyName: campaign.CompanyName,
-    });
+    }).then(() => {
+      toast.success('Campaign Successfully Created', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setVisible(false);
+
+    }).catch((err) => {
+      console.log(err);
+      toast.error('Please Fill details accurately', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    })
   }
-  
+
   const data = {
     labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
     datasets: [{
@@ -49,7 +74,7 @@ const ChartJs = () => {
     }]
   };
 
- const options = {
+  const options = {
     scales: {
       yAxes: [{
         ticks: {
@@ -68,7 +93,7 @@ const ChartJs = () => {
 
   };
 
- const areaData = {
+  const areaData = {
     labels: ["2013", "2014", "2015", "2016", "2017"],
     datasets: [{
       label: '# of Votes',
@@ -94,7 +119,7 @@ const ChartJs = () => {
     }]
   };
 
- const areaOptions = {
+  const areaOptions = {
     plugins: {
       filler: {
         propagate: true
@@ -102,7 +127,7 @@ const ChartJs = () => {
     }
   }
 
- const doughnutPieData = {
+  const doughnutPieData = {
     datasets: [{
       data: [30, 40, 30],
       backgroundColor: [
@@ -197,7 +222,7 @@ const ChartJs = () => {
     ]
   }
 
- const scatterChartOptions = {
+  const scatterChartOptions = {
     scales: {
       xAxes: [{
         type: 'linear',
@@ -229,6 +254,17 @@ const ChartJs = () => {
   }, 1000);
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="page-header">
         {/* <h3 className="page-title">
                         Chart-js

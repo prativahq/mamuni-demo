@@ -5,6 +5,8 @@ import { Bar, Doughnut } from 'react-chartjs-2';
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import { CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle, CButton } from '@coreui/react';
 import DatePicker from "react-datepicker";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Form } from 'react-bootstrap';
 // import DatePicker from "react-datepicker";
@@ -16,7 +18,7 @@ import { useState } from 'react';
 import { collection, getDocs, doc, getDoc, onSnapshot } from "firebase/firestore";
 import firebase from 'firebase/compat/app';
 import { useEffect } from 'react';
-import { ref, uploadBytes, getDownloadURL , listAll } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { v4 as uuidv4 } from 'uuid';
 import { useLayoutEffect } from 'react';
 
@@ -101,7 +103,6 @@ const Reports = () => {
             fileURL: url,
             CreatedBy: auth.currentUser.email,
           });
-          alert("Uploaded");
         })
         .catch((error) => {
           // A full list of error codes is available at
@@ -124,7 +125,15 @@ const Reports = () => {
               break;
           }
         });
-      alert("Uploaded");
+      toast.success('Report Uploaded :)', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     });
   }
 
@@ -201,6 +210,17 @@ const Reports = () => {
 
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="page-header">
         <h3 className="page-title">
           <span onClick={() => console.log(test)} className="page-title-icon bg-gradient-primary text-white mr-2">
@@ -279,7 +299,7 @@ const Reports = () => {
                         </td>
                         <td style={{ width: "40%" }}>
                           <div className="custom-file">
-                            <Form.Control onChange={uploadCSVStream} type="file" accept='.csv' className="form-control visibility-hidden" id="customFileLang" lang="es" />
+                            <Form.Control onChange={uploadCSVStream} type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" className="form-control visibility-hidden" id="customFileLang" lang="es" />
                             <label className="custom-file-label" htmlFor="customFileLang">Upload CSV</label>
 
                           </div>

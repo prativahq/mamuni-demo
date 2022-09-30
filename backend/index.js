@@ -38,4 +38,4 @@ app.get('/oauth2callback', async function (req, res) {
 });
 
 // port
-app.listen(3000, function () { console.log(`Server Started ${'http://localhost:3000'}`) });
+app.listen(3000 || process.env.PORT , function () { console.log(`Server Started ${'http://localhost:3000'}`) });
