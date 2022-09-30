@@ -89,7 +89,7 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 2. Now install all npm packages.
    ```sh
-    npm i 
+    npm install
    ```
    
 3. Now you have define own firebase project config at `firebase/firebaseconfig.js`.
