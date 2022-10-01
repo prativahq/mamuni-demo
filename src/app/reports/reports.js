@@ -19,6 +19,8 @@ const Reports = () => {
   const CompanyData = [];
   let CampaignArray = [];
   const CSVurlArray = [];
+  const CampaignFileUploadArr = [];
+  const [CampaignFileUploadSelect, setCampaignFileUploadSelect] = useState([]);
   const [UploadCSVCompany, setUploadCSVCompany] = useState("");
   const [reportUploadCampaign, setReportUploadCampaign] = useState("");
   const [fetchreportcompany, setfetchreportcompany] = useState("");
@@ -26,6 +28,8 @@ const Reports = () => {
   const [companydatasnap, setcompanydata] = useState([]);
   const [campaignssnap, setCampaigns] = useState([]);
   const [visible, setVisible] = useState(false)
+  const [visibleCamp, setvisibleCamp] = useState(false)
+  const [visibleCampReport, setvisibleCampReport] = useState(false)
   const [visiblereport, setVisiblereport] = useState(false)
   const [CSVurl, setCSVurl] = useState([]);
   const [campaign, setcampaign] = useState({
@@ -45,7 +49,15 @@ const Reports = () => {
 
   async function uploadCSVStream(e) {
     if (reportUploadCampaign === "") {
-      alert("Please Select Campaign!!!");
+      toast.error('Please Select Campaign !!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     const file = e.target.files[0];
@@ -76,10 +88,20 @@ const Reports = () => {
           })
         })
     })
+    setReportUploadCampaign("");
+    setUploadCSVCompany("");
   }
 
-  async function FetchCampaigns(){
-    
+  async function FetchCampaigns(CompanyNameFetch) {
+    db.collection('Company').doc(CompanyNameFetch.toLowerCase()).collection("Campaign").onSnapshot((snapshot) => {
+      snapshot.docs.map((doc) => {
+        console.log(doc.data());
+        CampaignArray.push(doc.data().CampaignName);
+        setCampaigns(CampaignArray);
+        CampaignFileUploadArr.push(doc.data().CompanyName);
+        setCampaignFileUploadSelect(CampaignFileUploadArr);
+      });
+    })
   }
 
   async function campaignCreate() {
@@ -102,18 +124,18 @@ const Reports = () => {
   }
 
 
-  async function FetchCampaignData() {
-    CampaignArray = [];
-    const unsubscribe = db.collection('Company').doc("gide").collection('Campaign').onSnapshot(snapshot => {
-      snapshot.docs.map(doc => {
-        console.log("Campaign Data", "-->", doc.data());
-        CampaignArray.push(doc.data().CampaignName);
-      })
-      setCampaigns(CampaignArray);
-    });
+  // async function FetchCampaignData() {
+  //   CampaignArray = [];
+  //   const unsubscribe = db.collection('Company').doc("gide").collection('Campaign').onSnapshot(snapshot => {
+  //     snapshot.docs.map(doc => {
+  //       console.log("Campaign Data", "-->", doc.data());
+  //       CampaignArray.push(doc.data().CampaignName);
+  //     })
+  //     setCampaigns(CampaignArray);
+  //   });
 
-    return unsubscribe;
-  }
+  //   return unsubscribe;
+  // }
 
   async function FetchReportData() {
     db.collection('Company').doc(fetchreportcompany.toLowerCase()).collection("Campaign").onSnapshot(snapshot => {
@@ -144,7 +166,6 @@ const Reports = () => {
   useEffect(() => {
     manageuser();
     FetchCompanyData();
-    FetchCampaignData();
   }, []);
 
   return (
@@ -219,13 +240,12 @@ const Reports = () => {
                   </thead>
                   <tbody>
                     {companydatasnap.map((item) => {
-                      {/* console.log("in map" ,  campaignssnap); */ }
 
                       return (
                         <tr key={item.CompanyName}>
                           <td>{item.CompanyName}</td>
                           <td>
-                            <select onChange={(e) => { setUploadCSVCompany(item.CompanyName); setReportUploadCampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
+                            {/* <select onChange={(e) => { setUploadCSVCompany(item.CompanyName); setReportUploadCampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
                               <option>Select Your Campaign</option>
                               {
                                 campaignssnap.map((item, i) => {
@@ -236,7 +256,20 @@ const Reports = () => {
                                   );
                                 })
                               }
-                            </select>
+                            </select> */}
+                            <CButton onClick={() => { FetchCampaigns(item.CompanyName); setTimeout(() => { setvisibleCamp(!visibleCamp) }, 1000) }}>Select Campaign</CButton>
+                            <CModal visible={visibleCamp} onClose={() => setvisibleCamp(false)}>
+                              <CModalHeader onClose={() => setvisibleCamp(false)}>
+                                <CModalTitle>Choose Your Campaign</CModalTitle>
+                              </CModalHeader>
+                              <CModalBody>
+                                {
+                                  campaignssnap.map((camp, i) => (
+                                    <button type="button" onClick={() => { console.log(CampaignFileUploadSelect[i], camp); setUploadCSVCompany(CampaignFileUploadSelect[i].toLowerCase()); setReportUploadCampaign(camp) }} style={{ marginLeft: "5px" }} className="btn btn-social-icon-text btn-twitter"><i className="mdi mdi-star-circle"></i>{camp}</button>
+                                  ))
+                                }
+                              </CModalBody>
+                            </CModal>
                           </td>
                           <td style={{ width: "40%" }}>
                             <div className="custom-file">
@@ -271,23 +304,27 @@ const Reports = () => {
                     </tr>
                   </thead>
                   <tbody>
+                    {/* setfetchreportcompany(item.CompanyName); setfetchcampaign(e.target.value) */}
                     {companydatasnap.map((item) => (
                       <tr>
                         <td>{item.CompanyName}</td>
                         <td>
-                          <select onChange={(e) => { setfetchreportcompany(item.CompanyName); setfetchcampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
-                            <option>Select Your Campaign</option>
-                            {
-                              campaignssnap.map((item) => (
-                                <>
-                                  <option value={item}>{item}</option>
-                                </>
-                              ))
-                            }
-                          </select>
+                          <CButton onClick={() => { FetchCampaigns(item.CompanyName); setTimeout(() => { setvisibleCampReport(!visibleCamp) }, 1000) }}>Select Campaign</CButton>
+                          <CModal visible={visibleCampReport} onClose={() => setvisibleCampReport(false)}>
+                            <CModalHeader onClose={() => setvisibleCampReport(false)}>
+                              <CModalTitle>Choose Your Campaign</CModalTitle>
+                            </CModalHeader>
+                            <CModalBody>
+                              {
+                                campaignssnap.map((camp, i) => (
+                                  <button type="button" onClick={() => { console.log(CampaignFileUploadSelect[i], camp); setfetchreportcompany(CampaignFileUploadSelect[i].toLowerCase()); setfetchcampaign(camp) }} style={{ marginLeft: "5px" }} className="btn btn-social-icon-text btn-twitter"><i className="mdi mdi-star-circle"></i>{camp}</button>
+                                ))
+                              }
+                            </CModalBody>
+                          </CModal>
                         </td>
                         <td style={{ width: "40%" }}>
-                          <CButton onClick={() => { FetchReportData(); setTimeout(() => { setVisiblereport(!visiblereport) }, 3000); }}>View Reports</CButton>
+                          <CButton onClick={() => { console.log(fetchCampaign, fetchreportcompany); FetchReportData(); setTimeout(() => { setVisiblereport(!visiblereport) }, 3000); }}>View Reports</CButton>
                           <CModal visible={visiblereport} onClose={() => setVisiblereport(false)}>
                             <CModalHeader onClose={() => setVisiblereport(false)}>
                               <CModalTitle>Previous Reports</CModalTitle>
