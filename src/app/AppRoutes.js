@@ -40,47 +40,17 @@ const BlankPage = lazy(() => import('./general-pages/BlankPage'));
 
 
 
-const AppRoutes = (props) => {
-
- 
-
-
+const AppRoutes = () => {
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
-        <Route exact path={"/"} component={Login} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/insertion-form" component={Insertion_Form} />
-
-
-        <Route exact path="/basic-ui/buttons" component={Buttons} />
-        <Route exact path="/basic-ui/dropdowns" component={Dropdowns} />
-        <Route exact path="/basic-ui/typography" component={Typography} />
-
-
-        <Route exact path="/form-Elements/basic-elements" component={BasicElements} />
-
-        <Route exact path="/tables/basic-table" component={BasicTable} />
-
-
-        <Route exact path="/icons/mdi" component={Mdi} />
-
-
-        <Route exact path="/charts/chart-js" component={ChartJs} />
-
-        <Route exact path="/reports" component={Reports} />
-        <Route exact path="/cards" component={Insertion_cards} />
-
-
-        {/* <Route exact path="/user-pages/login-1" component={Login} /> */}
-        <Route exact path="/register" component={Register} />
-        {/* <Route exact path="/user-pages/lockscreen" component={Lockscreen} /> */}
-
-        {/* <Route exact path="/error-pages/error-404" component={Error404} /> */}
-        {/* <Route path="*" component={Error404} /> */}
-        <Route exact path="/error-pages/error-500" component={Error500} />
-
-        <Route exact path="/general-pages/blank-page" component={BlankPage} />
+        <Route exact path="/" component={Login} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/charts/chart-js" component={ChartJs} />
+        <Route path="/insertion-form" component={Insertion_Form} />
+        <Route path="/reports" component={Reports} />
+        <Route path="/cards" component={Insertion_cards} />
+        <Route path="/register" component={Register} />
       </Switch>
     </Suspense>
   );
