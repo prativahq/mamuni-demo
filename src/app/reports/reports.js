@@ -30,7 +30,9 @@ const Reports = () => {
   const [visible, setVisible] = useState(false)
   const [visibleCamp, setvisibleCamp] = useState(false)
   const [visibleCampReport, setvisibleCampReport] = useState(false)
-  const [visiblereport, setVisiblereport] = useState(false)
+  const [visiblereport, setVisiblereport] = useState(false);
+  const [buttonselecttext, setbuttonselecttext] = useState("");
+  const [buttonselecttextprevious, setbuttonselecttextprevious] = useState("");
   const [CSVurl, setCSVurl] = useState([]);
   const [campaign, setcampaign] = useState({
     CompanyName: "",
@@ -185,7 +187,7 @@ const Reports = () => {
         <h3 className="page-title">
           <span className="page-title-icon bg-gradient-primary text-white mr-2">
             <i className="mdi mdi-file-document"></i>
-          </span> Reports </h3>
+          </span>Reports</h3>
       </div>
       <div className="row">
       </div>
@@ -228,7 +230,7 @@ const Reports = () => {
         <div className="col-12 grid-margin">
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">Reports</h4>
+              <h4 className="card-title">Upload Reports</h4>
               <div className="table-responsive">
                 <table className="table">
                   <thead>
@@ -257,7 +259,7 @@ const Reports = () => {
                                 })
                               }
                             </select> */}
-                            <CButton onClick={() => { FetchCampaigns(item.CompanyName); setTimeout(() => { setvisibleCamp(!visibleCamp) }, 1000) }}>Select Campaign</CButton>
+                            <CButton onClick={() => { FetchCampaigns(item.CompanyName); setTimeout(() => { setvisibleCamp(!visibleCamp) }, 1000) }}>{buttonselecttext != "" ? buttonselecttext.toUpperCase() : "Select Campaign"}</CButton>
                             <CModal visible={visibleCamp} onClose={() => setvisibleCamp(false)}>
                               <CModalHeader onClose={() => setvisibleCamp(false)}>
                                 <CModalTitle>Choose Your Campaign</CModalTitle>
@@ -265,7 +267,7 @@ const Reports = () => {
                               <CModalBody>
                                 {
                                   campaignssnap.map((camp, i) => (
-                                    <button type="button" onClick={() => { console.log(CampaignFileUploadSelect[i], camp); setUploadCSVCompany(CampaignFileUploadSelect[i].toLowerCase()); setReportUploadCampaign(camp) }} style={{ marginLeft: "5px" }} className="btn btn-social-icon-text btn-twitter"><i className="mdi mdi-star-circle"></i>{camp}</button>
+                                    <button type="button" onClick={() => { console.log(CampaignFileUploadSelect[i], camp); setbuttonselecttext(camp); setUploadCSVCompany(CampaignFileUploadSelect[i].toLowerCase()); setReportUploadCampaign(camp) }} style={{ marginLeft: "5px" }} className="btn btn-social-icon-text btn-twitter"><i className="mdi mdi-star-circle"></i>{camp}</button>
                                   ))
                                 }
                               </CModalBody>
@@ -309,7 +311,7 @@ const Reports = () => {
                       <tr>
                         <td>{item.CompanyName}</td>
                         <td>
-                          <CButton onClick={() => { FetchCampaigns(item.CompanyName); setTimeout(() => { setvisibleCampReport(!visibleCamp) }, 1000) }}>Select Campaign</CButton>
+                          <CButton onClick={() => { FetchCampaigns(item.CompanyName); setTimeout(() => { setvisibleCampReport(!visibleCamp) }, 1000) }}>{buttonselecttextprevious != "" ? buttonselecttextprevious.toUpperCase() : "Select Campaign"}</CButton>
                           <CModal visible={visibleCampReport} onClose={() => setvisibleCampReport(false)}>
                             <CModalHeader onClose={() => setvisibleCampReport(false)}>
                               <CModalTitle>Choose Your Campaign</CModalTitle>
@@ -317,7 +319,7 @@ const Reports = () => {
                             <CModalBody>
                               {
                                 campaignssnap.map((camp, i) => (
-                                  <button type="button" onClick={() => { console.log(CampaignFileUploadSelect[i], camp); setfetchreportcompany(CampaignFileUploadSelect[i].toLowerCase()); setfetchcampaign(camp) }} style={{ marginLeft: "5px" }} className="btn btn-social-icon-text btn-twitter"><i className="mdi mdi-star-circle"></i>{camp}</button>
+                                  <button type="button" onClick={() => { console.log(CampaignFileUploadSelect[i], camp); setbuttonselecttextprevious(camp); setfetchreportcompany(CampaignFileUploadSelect[i].toLowerCase()); setfetchcampaign(camp) }} style={{ marginLeft: "5px" }} className="btn btn-social-icon-text btn-twitter"><i className="mdi mdi-star-circle"></i>{camp}</button>
                                 ))
                               }
                             </CModalBody>
