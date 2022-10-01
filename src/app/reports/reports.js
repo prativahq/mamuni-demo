@@ -1,36 +1,25 @@
-import React, { Component } from 'react';
-import { ProgressBar } from 'react-bootstrap';
-import { Bar, Doughnut } from 'react-chartjs-2';
-// import '@coreui/coreui/dist/css/coreui.min.css'
-// import 'bootstrap/dist/css/bootstrap.min.css'
+import React from 'react';
 import { CModal, CModalHeader, CModalBody, CModalFooter, CModalTitle, CButton } from '@coreui/react';
 import DatePicker from "react-datepicker";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import { Form } from 'react-bootstrap';
-// import DatePicker from "react-datepicker";
-import { Dropdown, ButtonGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Dropdown } from 'react-bootstrap';
 import { auth, db, storage } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth'
 import { useState } from 'react';
-import { collection, getDocs, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import firebase from 'firebase/compat/app';
 import { useEffect } from 'react';
-import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from 'uuid';
-import { useLayoutEffect } from 'react';
-
-// import "react-datepicker/dist/react-datepicker.css";
-
-
 
 const Reports = () => {
   const [startdate, setstartdate] = useState(new Date());
   const CompanyData = [];
   let CampaignArray = [];
-  const [testcom, settestcom] = useState("");
+  const CSVurlArray = [];
+  const [UploadCSVCompany, setUploadCSVCompany] = useState("");
   const [reportUploadCampaign, setReportUploadCampaign] = useState("");
   const [fetchreportcompany, setfetchreportcompany] = useState("");
   const [fetchCampaign, setfetchcampaign] = useState("");
@@ -38,7 +27,6 @@ const Reports = () => {
   const [campaignssnap, setCampaigns] = useState([]);
   const [visible, setVisible] = useState(false)
   const [visiblereport, setVisiblereport] = useState(false)
-  const CSVurlArray = [];
   const [CSVurl, setCSVurl] = useState([]);
   const [campaign, setcampaign] = useState({
     CompanyName: "",
@@ -55,26 +43,6 @@ const Reports = () => {
     setcompanydata(CompanyData);
   }
 
-  // async function FetchCampaignData() {
-  //   const querySnapshot = await getDocs(collection(db, "Company"));
-  //   querySnapshot.forEach((doc) => {
-  //     if (doc.exists()) {
-  //       // CompanyData.push(doc.data());
-  //       db.collection("Company").doc(doc.id).collection("Campaign").onSnapshot(snapshot => {
-  //         snapshot.docs.map(doc => {
-  //           CampaignArray.push({
-  //             docid: doc.id,
-  //             data: doc.data().CampaignName
-  //           });
-  //         })
-  //       });
-  //     }
-  //   });
-  //   console.log("Campaigns Data", CampaignArray);
-  //   setCampaigns(CampaignArray);
-  //   // setcompanydata(CompanyData);
-  // }
-
   async function uploadCSVStream(e) {
     if (reportUploadCampaign === "") {
       alert("Please Select Campaign!!!");
@@ -85,10 +53,10 @@ const Reports = () => {
     uploadBytes(storageRef, file).then((snapshot) => {
       getDownloadURL(storageRef)
         .then((url) => {
-          db.collection('Company').doc(testcom).collection("Campaign").onSnapshot(snapshot => {
+          db.collection('Company').doc(UploadCSVCompany.toLowerCase()).collection("Campaign").onSnapshot(snapshot => {
             snapshot.docs.map(doci => {
               if (doci.data().CampaignName === reportUploadCampaign) {
-                db.collection('Company').doc(testcom).collection("Campaign").doc(doci.id).collection("Reports").add({
+                db.collection('Company').doc(UploadCSVCompany).collection("Campaign").doc(doci.id).collection("Reports").add({
                   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                   fileURL: url,
                   CreatedBy: auth.currentUser.email,
@@ -110,18 +78,33 @@ const Reports = () => {
     })
   }
 
+  async function FetchCampaigns(){
+    
+  }
 
   async function campaignCreate() {
-    db.collection('Company').doc(campaign.CompanyName).collection('Campaign').add({
+    db.collection('Company').doc(campaign.CompanyName.toLowerCase()).collection('Campaign').add({
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       CampaignName: campaign.CampaignName,
       CompanyName: campaign.CompanyName,
+    }).then(() => {
+      setVisible(false);
+      toast.success('New Campaign Created :)', {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     });
   }
 
+
   async function FetchCampaignData() {
     CampaignArray = [];
-    const unsubscribe = db.collection('Company').doc("Kile").collection('Campaign').onSnapshot(snapshot => {
+    const unsubscribe = db.collection('Company').doc("gide").collection('Campaign').onSnapshot(snapshot => {
       snapshot.docs.map(doc => {
         console.log("Campaign Data", "-->", doc.data());
         CampaignArray.push(doc.data().CampaignName);
@@ -133,7 +116,7 @@ const Reports = () => {
   }
 
   async function FetchReportData() {
-    db.collection('Company').doc(fetchreportcompany).collection("Campaign").onSnapshot(snapshot => {
+    db.collection('Company').doc(fetchreportcompany.toLowerCase()).collection("Campaign").onSnapshot(snapshot => {
       snapshot.docs.map(doci => {
         if (doci.data().CampaignName === fetchCampaign) {
           db.collection('Company').doc(fetchreportcompany).collection("Campaign").doc(doci.id).collection("Reports").onSnapshot(snapshot => {
@@ -149,19 +132,11 @@ const Reports = () => {
   }
 
   const manageuser = () => {
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
-        // window.location.href = "/dashboard";
-        // ...
       } else {
-        // User is signed out
-        // <Redirect to={"/"} />
         window.location.href = "/";
-        // ...
       }
     });
   }
@@ -250,7 +225,7 @@ const Reports = () => {
                         <tr key={item.CompanyName}>
                           <td>{item.CompanyName}</td>
                           <td>
-                            <select onChange={(e) => { settestcom(item.CompanyName); setReportUploadCampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
+                            <select onChange={(e) => { setUploadCSVCompany(item.CompanyName); setReportUploadCampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
                               <option>Select Your Campaign</option>
                               {
                                 campaignssnap.map((item, i) => {
