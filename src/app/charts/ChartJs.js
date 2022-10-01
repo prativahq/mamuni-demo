@@ -8,6 +8,7 @@ import { Form } from 'react-bootstrap';
 import firebase from 'firebase/compat/app';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 
 const ChartJs = () => {
@@ -17,36 +18,7 @@ const ChartJs = () => {
   });
   const [visible, setVisible] = useState(false)
 
-  async function campaignCreate() {
-    db.collection('Company').doc(campaign.CompanyName).collection('Campaign').add({
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      CampaignName: campaign.CampaignName,
-      CompanyName: campaign.CompanyName,
-    }).then(() => {
-      toast.success('Campaign Successfully Created', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setVisible(false);
 
-    }).catch((err) => {
-      console.log(err);
-      toast.error('Please Fill details accurately', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    })
-  }
 
   const data = {
     labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
@@ -266,43 +238,8 @@ const ChartJs = () => {
         pauseOnHover
       />
       <div className="page-header">
-        {/* <h3 className="page-title">
-                        Chart-js
-                    </h3> */}
-        {/* <nav aria-label="breadcrumb">
-                        <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Charts</a></li>
-                        <li className="breadcrumb-item active" aria-current="page">Chart-js</li>
-                        </ol>
-                    </nav> */}
       </div>
-      {/* <div className="row">
-                    <div className="col-md-6 grid-margin stretch-card">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title">Line Chart</h4>
-                                <Line data={data} options={options} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-6 grid-margin stretch-card">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title">Bar Chart</h4>
-                                <Bar data={data} options={options} />    
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
       <div className="row">
-        {/* <div className="col-md-6 grid-margin stretch-card">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title">Area Chart</h4>
-                                <Line data={areaData} options={areaOptions} />
-                            </div>
-                        </div>
-                    </div> */}
         <div className="col-md-6 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
@@ -320,43 +257,10 @@ const ChartJs = () => {
           </div>
         </div>
       </div>
-      {/* <div className="row">
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Pie Chart</h4>
-                <Pie data={doughnutPieData} options={doughnutPieOptions} />
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title">Scatter Chart</h4>
-                <Scatter data={scatterChartData} options={scatterChartOptions} />
-              </div>
-            </div>
-          </div>
-        </div> */}
       <div style={{ marginBottom: "30px" }}>
-        <CButton onClick={() => setVisible(!visible)}>Create Campaign</CButton>
-        <CModal visible={visible} onClose={() => setVisible(false)}>
-          <CModalHeader onClose={() => setVisible(false)}>
-            <CModalTitle>Campaign Details</CModalTitle>
-          </CModalHeader>
-          <CModalBody>
-            <label htmlFor="exampleInputName1">Company Name</label>
-            <Form.Control onChange={(e) => setcampaign({ ...campaign, CompanyName: e.target.value })} type="text" className="form-control" id="exampleInputName1" placeholder="Company Name" />
-            <label htmlFor="exampleInputName2" className='mt-4'>Campaign Name</label>
-            <Form.Control type="text" onChange={(e) => setcampaign({ ...campaign, CampaignName: e.target.value })} className="form-control" id="exampleInputName2" placeholder="Campaign Name" />
-          </CModalBody>
-          <CModalFooter>
-            <CButton color="secondary" onClick={() => setVisible(false)}>
-              Close
-            </CButton>
-            <CButton color="primary" onClick={campaignCreate}>Create</CButton>
-          </CModalFooter>
-        </CModal>
+        <Link to={"/cards"}>
+          <button type="button" className="btn btn-gradient-success btn-fw">New Insertion order</button>
+        </Link>
       </div>
       <div className="col-lg-12 grid-margin stretch-card">
         <div className="card">

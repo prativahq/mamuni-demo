@@ -58,7 +58,7 @@ const Register = () => {
         console.log(user);
 
 
-        await setDoc(doc(db, "Company", CompanyName.toLowerCase()), {
+        await setDoc(doc(db, "Company", CompanyName), {
           Name: Name,
           CompanyName: CompanyName.toLowerCase(),
           Email: email

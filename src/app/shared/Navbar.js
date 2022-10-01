@@ -15,14 +15,13 @@ const Navbar = (props) => {
   }
 
   const [companyName, setCompanyName] = useState("");
-  const [authid , setauid] = useState(auth.currentUser.uid);
+  const authid = auth.currentUser.uid;
 
   async function fetchCompanyName() {
-    const docRef = doc(db, "CompanyDetails",  authid);
+    const docRef = doc(db, "CompanyDetails", authid);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
       setCompanyName(docSnap.data().CompanyName);
     } else {
       // doc.data() will be undefined in this case

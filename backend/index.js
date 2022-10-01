@@ -5,7 +5,7 @@ var google = require('googleapis');
 
 // OAuth2 initialization
 var OAuth2 = google.Auth.OAuth2Client
-var oauth2Client = new OAuth2("336509556446-ffvj8gtja73ohh68k1e8stf3ci5mlo0n.apps.googleusercontent.com", "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", "http://localhost:3000/oauth2callback");
+var oauth2Client = new OAuth2("336509556446-ffvj8gtja73ohh68k1e8stf3ci5mlo0n.apps.googleusercontent.com" , "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"  , "http://localhost:3000/oauth2callback");
 oauth2Client.getToken = Promise.promisify(oauth2Client.getToken)
 
 
@@ -14,14 +14,14 @@ oauth2Client.getToken = Promise.promisify(oauth2Client.getToken)
 app.get('/google', function (req, res) {
     var url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
-        scope: ["https://www.googleapis.com/auth/display-video" , "https://www.googleapis.com/auth/userinfo.profile"]
+        scope: ["https://www.googleapis.com/auth/display-video", "https://www.googleapis.com/auth/userinfo.profile"]
     })
     res.redirect(url);
     // console.log(oauth2Client.credentials);
 });
 
 
-app.get("/" , (req,res)=>{
+app.get("/", (req, res) => {
     res.send("Hello")
 })
 
@@ -38,4 +38,4 @@ app.get('/oauth2callback', async function (req, res) {
 });
 
 // port
-app.listen(3000 || process.env.PORT , function () { console.log(`Server Started ${'http://localhost:3000'}`) });
+app.listen(3000 || process.env.PORT, function () { console.log(`Server Started ${'http://localhost:3000'}`) });

@@ -27,40 +27,13 @@ import { useLayoutEffect } from 'react';
 
 
 const Reports = () => {
-
-  const [authid, setauthid] = useState("");
-  const [companyName, setCompanyName] = useState("Kile");
-  const [test, settest] = useState({});
-  function authidGenerator() {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        db.collection("CompanyDetails").doc(uid)
-          .onSnapshot((doc) => {
-            console.log("CompanyName data: ", doc.data());
-            console.log((doc.data().CompanyName));
-            setCompanyName(doc.data().CompanyName);
-            console.log(companyName);
-          });
-        // ...
-      } else {
-        // User is signed out
-        // ...
-      }
-    });
-
-  }
-  authidGenerator();
-  // useEffect(() => {
-  //   authidGenerator();
-  // }, []);
-
   const [startdate, setstartdate] = useState(new Date());
   const CompanyData = [];
   let CampaignArray = [];
+  const [testcom, settestcom] = useState("");
   const [reportUploadCampaign, setReportUploadCampaign] = useState("");
+  const [fetchreportcompany, setfetchreportcompany] = useState("");
+  const [fetchCampaign, setfetchcampaign] = useState("");
   const [companydatasnap, setcompanydata] = useState([]);
   const [campaignssnap, setCampaigns] = useState([]);
   const [visible, setVisible] = useState(false)
@@ -75,17 +48,32 @@ const Reports = () => {
   async function FetchCompanyData() {
     const querySnapshot = await getDocs(collection(db, "Company"));
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      // console.log(doc.data());
       if (doc.exists()) {
         CompanyData.push(doc.data());
-      }
-      else {
-
       }
     });
     setcompanydata(CompanyData);
   }
+
+  // async function FetchCampaignData() {
+  //   const querySnapshot = await getDocs(collection(db, "Company"));
+  //   querySnapshot.forEach((doc) => {
+  //     if (doc.exists()) {
+  //       // CompanyData.push(doc.data());
+  //       db.collection("Company").doc(doc.id).collection("Campaign").onSnapshot(snapshot => {
+  //         snapshot.docs.map(doc => {
+  //           CampaignArray.push({
+  //             docid: doc.id,
+  //             data: doc.data().CampaignName
+  //           });
+  //         })
+  //       });
+  //     }
+  //   });
+  //   console.log("Campaigns Data", CampaignArray);
+  //   setCampaigns(CampaignArray);
+  //   // setcompanydata(CompanyData);
+  // }
 
   async function uploadCSVStream(e) {
     if (reportUploadCampaign === "") {
@@ -97,45 +85,31 @@ const Reports = () => {
     uploadBytes(storageRef, file).then((snapshot) => {
       getDownloadURL(storageRef)
         .then((url) => {
-          // Insert url into an <img> tag to "download"
-          db.collection('Company').doc(companyName).collection("Campaign").doc("jl25xfDvmrVvW8eFJ7to").collection("Reports").add({
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            fileURL: url,
-            CreatedBy: auth.currentUser.email,
-          });
+          db.collection('Company').doc(testcom).collection("Campaign").onSnapshot(snapshot => {
+            snapshot.docs.map(doci => {
+              if (doci.data().CampaignName === reportUploadCampaign) {
+                db.collection('Company').doc(testcom).collection("Campaign").doc(doci.id).collection("Reports").add({
+                  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                  fileURL: url,
+                  CreatedBy: auth.currentUser.email,
+                }).then(() => {
+                  toast.success('Report Uploaded :)', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                })
+              }
+            })
+          })
         })
-        .catch((error) => {
-          // A full list of error codes is available at
-          // https://firebase.google.com/docs/storage/web/handle-errors
-          switch (error.code) {
-            case 'storage/object-not-found':
-              // File doesn't exist
-              break;
-            case 'storage/unauthorized':
-              // User doesn't have permission to access the object
-              break;
-            case 'storage/canceled':
-              // User canceled the upload
-              break;
-
-            // ...
-
-            case 'storage/unknown':
-              // Unknown error occurred, inspect the server response
-              break;
-          }
-        });
-      toast.success('Report Uploaded :)', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    });
+    })
   }
+
 
   async function campaignCreate() {
     db.collection('Company').doc(campaign.CompanyName).collection('Campaign').add({
@@ -147,7 +121,7 @@ const Reports = () => {
 
   async function FetchCampaignData() {
     CampaignArray = [];
-    const unsubscribe = db.collection('Company').doc(companyName).collection('Campaign').onSnapshot(snapshot => {
+    const unsubscribe = db.collection('Company').doc("Kile").collection('Campaign').onSnapshot(snapshot => {
       snapshot.docs.map(doc => {
         console.log("Campaign Data", "-->", doc.data());
         CampaignArray.push(doc.data().CampaignName);
@@ -159,30 +133,19 @@ const Reports = () => {
   }
 
   async function FetchReportData() {
-    const unsubscribe = db.collection('Company').doc(companyName).collection('Campaign').doc("jl25xfDvmrVvW8eFJ7to").collection("Reports").onSnapshot(snapshot => {
-      snapshot.docs.map(doc => {
-        console.log("Report", doc.data());
-        CSVurlArray.push(
-          doc.data().fileURL
-        );
+    db.collection('Company').doc(fetchreportcompany).collection("Campaign").onSnapshot(snapshot => {
+      snapshot.docs.map(doci => {
+        if (doci.data().CampaignName === fetchCampaign) {
+          db.collection('Company').doc(fetchreportcompany).collection("Campaign").doc(doci.id).collection("Reports").onSnapshot(snapshot => {
+            snapshot.docs.map(doci => {
+              console.log(doci.id);
+              CSVurlArray.push(doci.data().fileURL);
+            });
+          });
+          setCSVurl(CSVurlArray);
+        }
       })
-      setCSVurl(CSVurlArray);
-    });
-    return unsubscribe;
-  }
-
-  useEffect(() => {
-    FetchCompanyData();
-    FetchReportData();
-    FetchCampaignData();
-  }, []);
-
-
-
-
-
-  function toggleProBanner() {
-    document.querySelector('.proBanner').classList.toggle("hide");
+    })
   }
 
   const manageuser = () => {
@@ -205,8 +168,9 @@ const Reports = () => {
 
   useEffect(() => {
     manageuser();
+    FetchCompanyData();
+    FetchCampaignData();
   }, []);
-
 
   return (
     <div>
@@ -223,17 +187,14 @@ const Reports = () => {
       />
       <div className="page-header">
         <h3 className="page-title">
-          <span onClick={() => console.log(test)} className="page-title-icon bg-gradient-primary text-white mr-2">
+          <span className="page-title-icon bg-gradient-primary text-white mr-2">
             <i className="mdi mdi-file-document"></i>
           </span> Reports </h3>
       </div>
       <div className="row">
       </div>
       <div style={{ marginBottom: "30px", display: "flex", flexDirection: "row" }}>
-        <Link to={"/cards"}>
-          <button type="button" className="btn btn-gradient-success btn-fw">New Insertion order</button>
-        </Link>
-        {/* <CButton onClick={() => setVisible(!visible)}>Create Campaign</CButton>
+        <CButton onClick={() => setVisible(!visible)}>Create Campaign</CButton>
         <CModal visible={visible} onClose={() => setVisible(false)}>
           <CModalHeader onClose={() => setVisible(false)}>
             <CModalTitle>Campaign Details</CModalTitle>
@@ -250,7 +211,7 @@ const Reports = () => {
             </CButton>
             <CButton color="primary" onClick={campaignCreate}>Create</CButton>
           </CModalFooter>
-        </CModal> */}
+        </CModal>
         <DatePicker className="form-control w-100"
           selected={startdate}
           onChange={e => setstartdate(e)}
@@ -282,30 +243,36 @@ const Reports = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {companydatasnap.map((item) => (
-                      <tr>
-                        <td>{item.CompanyName}</td>
-                        <td>
-                          <select onChange={(e) => { console.log(e.target.value); setReportUploadCampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
-                            <option> </option>
-                            {
-                              campaignssnap.map((item) => (
-                                <>
-                                  <option value={item}>{item}</option>
-                                </>
-                              ))
-                            }
-                          </select>
-                        </td>
-                        <td style={{ width: "40%" }}>
-                          <div className="custom-file">
-                            <Form.Control onChange={uploadCSVStream} type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" className="form-control visibility-hidden" id="customFileLang" lang="es" />
-                            <label className="custom-file-label" htmlFor="customFileLang">Upload CSV</label>
+                    {companydatasnap.map((item) => {
+                      {/* console.log("in map" ,  campaignssnap); */ }
 
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+                      return (
+                        <tr key={item.CompanyName}>
+                          <td>{item.CompanyName}</td>
+                          <td>
+                            <select onChange={(e) => { settestcom(item.CompanyName); setReportUploadCampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
+                              <option>Select Your Campaign</option>
+                              {
+                                campaignssnap.map((item, i) => {
+                                  return (
+                                    <>
+                                      <option value={item}>{item}</option>
+                                    </>
+                                  );
+                                })
+                              }
+                            </select>
+                          </td>
+                          <td style={{ width: "40%" }}>
+                            <div className="custom-file">
+                              <Form.Control onChange={uploadCSVStream} type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" className="form-control visibility-hidden" id="customFileLang" lang="es" />
+                              <label className="custom-file-label" htmlFor="customFileLang">Upload CSV</label>
+
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    })
                     }
                   </tbody>
                 </table>
@@ -331,9 +298,9 @@ const Reports = () => {
                   <tbody>
                     {companydatasnap.map((item) => (
                       <tr>
-                        <td onClick={() => console.log()}>{item.CompanyName}</td>
-                        <td onClick={() => console.log(CompanyData.length)}>
-                          <select onChange={(e) => { console.log(e.target.value); setReportUploadCampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
+                        <td>{item.CompanyName}</td>
+                        <td>
+                          <select onChange={(e) => { setfetchreportcompany(item.CompanyName); setfetchcampaign(e.target.value) }} className="form-control" id="exampleSelectGender">
                             <option>Select Your Campaign</option>
                             {
                               campaignssnap.map((item) => (
@@ -345,7 +312,7 @@ const Reports = () => {
                           </select>
                         </td>
                         <td style={{ width: "40%" }}>
-                          <CButton onClick={() => setVisiblereport(!visiblereport)}>View Reports</CButton>
+                          <CButton onClick={() => { FetchReportData(); setTimeout(() => { setVisiblereport(!visiblereport) }, 3000); }}>View Reports</CButton>
                           <CModal visible={visiblereport} onClose={() => setVisiblereport(false)}>
                             <CModalHeader onClose={() => setVisiblereport(false)}>
                               <CModalTitle>Previous Reports</CModalTitle>

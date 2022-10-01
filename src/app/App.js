@@ -49,10 +49,10 @@ const App = () => {
             {userid != null && SettingsPanelComponent}
             <div className="content-wrapper">
               <AppRoutes />
+        {userid != null && footerComponent}
             </div>
           </div>
         </div>
-        {userid != null && footerComponent}
       </div>
     </>
   );
