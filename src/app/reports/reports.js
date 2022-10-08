@@ -210,10 +210,10 @@ const Reports = () => {
             <CButton color="primary" onClick={campaignCreate}>Create</CButton>
           </CModalFooter>
         </CModal>
-        <DatePicker className="form-control w-100"
+        {/* <DatePicker className="form-control w-100"
           selected={startdate}
           onChange={e => setstartdate(e)}
-        />
+        /> */}
         <Dropdown>
           <Dropdown.Toggle variant="btn" id="dropdownMenuOutlineButton1">
             Performance

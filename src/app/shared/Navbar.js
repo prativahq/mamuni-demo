@@ -59,12 +59,37 @@ const Navbar = (props) => {
         <ul className="navbar-nav navbar-nav-right">
           <li className="nav-item nav-logout d-none d-lg-block">
             <a className="nav-link" href="!#" onClick={event => event.preventDefault()}>
+              <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-magnify"></i>
+            </a>
+          </li>
+          <li className="nav-item nav-logout d-none d-lg-block">
+            <a className="nav-link" href="!#" onClick={event => event.preventDefault()}>
+              <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-bell"></i>
+            </a>
+          </li>
+          <li className="nav-item nav-logout d-none d-lg-block">
+            <a className="nav-link" href="!#" onClick={event => event.preventDefault()}>
               <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-account-multiple"></i>
             </a>
           </li>
           <li className="nav-item nav-logout d-none d-lg-block">
             <a className="nav-link" href="#!" onClick={e => e.preventDefault()}>
+              <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-file-multiple"></i>
+            </a>
+          </li>
+          <li className="nav-item nav-logout d-none d-lg-block">
+            <a className="nav-link" href="#!" onClick={e => e.preventDefault()}>
               <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-file-document-box menu-icon"></i>
+            </a>
+          </li> 
+          <li className="nav-item nav-logout d-none d-lg-block">
+            <a className="nav-link" href="#!" onClick={e => e.preventDefault()}>
+              <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-comment-question-outline menu-icon"></i>
+            </a>
+          </li>
+          <li className="nav-item nav-logout d-none d-lg-block">
+            <a className="nav-link" href="#!" onClick={e => e.preventDefault()}>
+              <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-table menu-icon"></i>
             </a>
           </li>
           <li className="nav-item nav-profile">

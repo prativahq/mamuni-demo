@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from 'react';
-import { ProgressBar } from 'react-bootstrap';
+import { Dropdown, ProgressBar } from 'react-bootstrap';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import DatePicker from "react-datepicker";
 import { auth } from '../firebase';
@@ -370,6 +370,16 @@ export class Dashboard extends Component {
             </div> */}
           </div>
         </div>
+        <Dropdown style={{marginBottom: "20px"}}>
+          <Dropdown.Toggle variant="btn btn-outline-primary" id="dropdownMenuOutlineButton2">
+            Select Overview
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item>System Generated Workspace</Dropdown.Item>
+            <Dropdown.Divider></Dropdown.Divider>
+            <Dropdown.Item>Created New Workspace</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
         <div className="row">
           <div className="col-12 grid-margin">
             <div className="card">

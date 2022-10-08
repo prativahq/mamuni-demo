@@ -44,7 +44,7 @@ const Order_Forms = () => {
                             <Form.Control type="text" className="form-control" id="exampleInputName1" placeholder="Name" />
                             <label htmlFor="exampleFormControlSelect3"></label>
                             <select defaultValue={"Draft"} className="form-control form-control-sm" id="exampleFormControlSelect3">
-                                <option>Draft</option>
+                                <option>Pause</option>
                                 <option>Active</option>
                             </select>
                         </Form.Group>
@@ -122,6 +122,8 @@ const Order_Forms = () => {
                             <select defaultValue={"Cost per thousand impressions (CPM)"} className="form-control form-control-sm" id="exampleFormControlSelect3">
                                 <option>Cost per thousand impressions (CPM)</option>
                                 <option>Impressions</option>
+                                <option>Click through rate(CTR)</option>
+                                <option>Cost per click(CPC)</option>
                             </select>
                         </Form.Group>
                     </div>
@@ -150,7 +152,11 @@ const Order_Forms = () => {
                     <div className="card-body">
                         <h4 className="card-title">Optimization</h4>
                         <Form.Group>
-                            <label htmlFor="exampleInputName1">Optimization</label>
+                            <select defaultValue={"Impressions"} className="form-control form-control-sm" id="exampleFormControlSelect3">
+                                <option>Maximize Clicks</option>
+                                <option>Maximize Conversion</option>
+                                <option>Maximize Viewable Impressions</option>
+                            </select>
                         </Form.Group>
                     </div>
                 </div>
@@ -164,7 +170,7 @@ const Order_Forms = () => {
                         <Form.Group>
                             <div className="form-check">
                                 <label className="form-check-label">
-                                    <input type="radio" className="form-check-input" name="optionsRadios" id="optionsRadios1" value="nolimit" />
+                                    <input type="radio" onChange={() => setlimit("")} className="form-check-input" name="optionsRadios" id="optionsRadios1" value="nolimit" />
                                     <i className="input-helper"></i>
                                     No limit
                                 </label>

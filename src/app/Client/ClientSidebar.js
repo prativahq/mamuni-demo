@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Collapse } from 'react-bootstrap';
 import { Trans } from 'react-i18next';
-import { auth } from '../firebase';
 
-class Sidebar extends Component {
+class ClientSidebar extends Component {
 
   state = {};
 
@@ -59,7 +58,7 @@ class Sidebar extends Component {
   render() {
     return (
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
-        {auth.currentUser.email === "test@gmail.com" ? <ul className="nav">
+        <ul className="nav">
           {/* 
          
 <li className="nav-item nav-profile">
@@ -97,32 +96,33 @@ class Sidebar extends Component {
             </Link>
           </li>
 
-          <li className={this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item'}>
-            <div className={this.state.basicUiMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('basicUiMenuOpen')} data-toggle="collapse">
+
+          <li className={ this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item' }>
+            <div className={ this.state.basicUiMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('basicUiMenuOpen') } data-toggle="collapse">
               <span className="menu-title"><Trans>Resources</Trans></span>
               <i className="menu-arrow"></i>
               <i className="mdi mdi-folder-multiple-outline menu-icon"></i>
             </div>
-            <Collapse in={this.state.basicUiMenuOpen}>
+            <Collapse in={ this.state.basicUiMenuOpen }>
               <ul className="nav flex-column sub-menu">
-                <li className="nav-item"> <Link className={this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link'}><Trans>Brand Control</Trans></Link></li>
-                <li className="nav-item"> <Link className={this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link'}><Trans>Channels</Trans></Link></li>
-                <li className="nav-item"> <Link className={this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link'}><Trans>Custom Bidding</Trans></Link></li>
-                <li className="nav-item"> <Link className={this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link'}><Trans>Floodlight Groups</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link' }><Trans>Brand Control</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link' }><Trans>Channels</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link' }><Trans>Custom Bidding</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link' }><Trans>Floodlight Groups</Trans></Link></li>
               </ul>
             </Collapse>
           </li>
-          <li className={this.isPathActive('/form-elements') ? 'nav-item active' : 'nav-item'}>
-            <div className={this.state.formElementsMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('formElementsMenuOpen')} data-toggle="collapse">
+          <li className={ this.isPathActive('/form-elements') ? 'nav-item active' : 'nav-item' }>
+            <div className={ this.state.formElementsMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('formElementsMenuOpen') } data-toggle="collapse">
               <span className="menu-title"><Trans>Partner Settings</Trans></span>
               <i className="menu-arrow"></i>
               <i className="mdi mdi-settings menu-icon"></i>
             </div>
-            <Collapse in={this.state.formElementsMenuOpen}>
+            <Collapse in={ this.state.formElementsMenuOpen }>
               <ul className="nav flex-column sub-menu">
-                <li className="nav-item"> <Link className={this.isPathActive('/form-elements/basic-elements') ? 'nav-link active' : 'nav-link'}><Trans>Basic Details</Trans></Link></li>
-                <li className="nav-item"> <Link className={this.isPathActive('/form-elements/basic-elements') ? 'nav-link active' : 'nav-link'}><Trans>Targeting</Trans></Link></li>
-                <li className="nav-item"> <Link className={this.isPathActive('/form-elements/basic-elements') ? 'nav-link active' : 'nav-link'}><Trans>Advertiser Configurations</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/form-elements/basic-elements') ? 'nav-link active' : 'nav-link' }><Trans>Basic Details</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/form-elements/basic-elements') ? 'nav-link active' : 'nav-link' }><Trans>Targeting</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/form-elements/basic-elements') ? 'nav-link active' : 'nav-link' }><Trans>Advertiser Configurations</Trans></Link></li>
               </ul>
             </Collapse>
           </li>
@@ -132,8 +132,6 @@ class Sidebar extends Component {
               <i className="mdi mdi-history menu-icon"></i>
             </Link>
           </li>
-
-
           {/* <li className={ this.isPathActive('/tables') ? 'nav-item active' : 'nav-item' }>
             <div className={ this.state.tablesMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('tablesMenuOpen') } data-toggle="collapse">
               <span className="menu-title"><Trans>Tables</Trans></span>
@@ -229,14 +227,7 @@ class Sidebar extends Component {
               </ul>
             </Collapse>
           </li> */}
-        </ul> : <ul className='nav'>
-          <li className={this.isPathActive('/reports') ? 'nav-item active' : 'nav-item'}>
-            <Link className="nav-link" to="/reports">
-              <span className="menu-title"><Trans>Reports</Trans></span>
-              <i className="mdi mdi-chart-bar menu-icon"></i>
-            </Link>
-          </li>
-        </ul>}
+        </ul>
       </nav>
     );
   }
@@ -266,4 +257,4 @@ class Sidebar extends Component {
 
 }
 
-export default withRouter(Sidebar);
+export default withRouter(ClientSidebar);
