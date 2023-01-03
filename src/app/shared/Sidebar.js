@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import React, { Component } from 'react';
+
 import { Collapse } from 'react-bootstrap';
 import { Trans } from 'react-i18next';
 import { auth } from '../firebase';
@@ -81,6 +82,12 @@ class Sidebar extends Component {
           <li className={this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item'}>
             <Link className="nav-link" to="/dashboard">
               <span className="menu-title"><Trans>Overview</Trans></span>
+              <i className="mdi mdi-home menu-icon"></i>
+            </Link>
+          </li>
+          <li className={this.isPathActive('/call_logs') ? 'nav-item active' : 'nav-item'}>
+            <Link className="nav-link" to="/call_logs">
+              <span className="menu-title"><Trans>Call Logs</Trans></span>
               <i className="mdi mdi-home menu-icon"></i>
             </Link>
           </li>

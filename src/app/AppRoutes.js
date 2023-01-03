@@ -1,13 +1,14 @@
-import React, { Component, Suspense, lazy, useState, useEffect } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { Component, Suspense, lazy, useEffect, useState } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+
+import ClientReports from './Client/Clientreports';
+import Insertion_cards from './insertion-cards/Insertion_cards';
+import Spinner from '../app/shared/Spinner';
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
-import Spinner from '../app/shared/Spinner';
-import ClientReports from './Client/Clientreports';
-import Insertion_cards from './insertion-cards/Insertion_cards';
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
-
+const CallLogs = lazy(() => import('./call_logs/CallLogs'));
 const Reports = lazy(() => import('./reports/reports'));
 const Insertion_Form = lazy(() => import('./Insertion-Form/Order_Forms'));
 const ChartJs = lazy(() => import('./InsertionOrder/InsertionOrder'));
@@ -47,6 +48,7 @@ const AppRoutes = () => {
         <Route path="/cards" component={email === "test@gmail.com" ? Insertion_cards : ClientReports} />
         <Route path="/register" component={email === "test@gmail.com" ? Register : ClientReports} />
         <Route path="/client" component={email !== "test@gmail.com" ? ClientReports : Reports} />
+        <Route path="/call_logs" component={email === "test@gmail.com" ? CallLogs : ClientReports} />
       </Switch>
     </Suspense>
   );
