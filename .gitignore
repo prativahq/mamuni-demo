@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+#environment_variables
+.env.prod
+.env
+.env.local
+
 #config
 */firebase/firebaseconfig.js
 /firebase-debug.log
