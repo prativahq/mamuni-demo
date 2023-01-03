@@ -86,6 +86,7 @@
     ]
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "sass": "^1.54.9"
   }
 }
