@@ -1,23 +1,33 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import {getAuth} from 'firebase/auth';
-import {getFirestore} from 'firebase/firestore';
-import {getStorage} from 'firebase/storage';
-import firebase from 'firebase/compat/app';
+
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
+
+import firebase from 'firebase/compat/app';
+import {getAuth} from 'firebase/auth';
+import {getFirestore} from 'firebase/firestore';
+import {getStorage} from 'firebase/storage';
+import { initializeApp } from "firebase/app";
+
+//import firebaseConfig from './../firebase/firebaseconfig.js'
+
+
+
+
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB2oMMV9-6EhgIRV0D37MUIyCHjy0iDV4U",
-  authDomain: "promatic-9049c.firebaseapp.com",
-  projectId: "promatic-9049c",
-  storageBucket: "promatic-9049c.appspot.com",
-  messagingSenderId: "350456617499",
-  appId: "1:350456617499:web:93b060582569289d1c36be"
+  apiKey: "AIzaSyCHQWVjvm7vHeQRwvfcMKX7ywadki4BdgY",
+  authDomain: "pt-mamuni.firebaseapp.com",
+  databaseURL: "https://pt-mamuni-default-rtdb.firebaseio.com",
+  projectId: "pt-mamuni",
+  storageBucket: "pt-mamuni.appspot.com",
+  messagingSenderId: "150952987921",
+  appId: "1:150952987921:web:1ab2d5be11c3deb70010b0",
+  measurementId: "G-8XHSZ8LKV9"
 };
 
 // Initialize Firebase
