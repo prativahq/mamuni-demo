@@ -21,17 +21,13 @@ function CallLogTable(props) {
         data.docs.forEach( item => {
             //console.log(item.data());
             setLogs([...call_logs,item.data()]);
-            // setFormattedLogs([...formatted_logs, 
-            //     {   sid: item.data().sid ,
-            //         startTime: item.data().startTime,
-            //         endTime: item.data().endTime,
-            //         dateUpdated: item.data().dateUpdated
-            //      }]);
+
             formatted_data.push({ 
                 sid: item.data().sid ,
-                startTime: item.data().startTime,
-                endTime: item.data().endTime,
-                dateUpdated: item.data().dateUpdated
+                startTime: item.data().startTime.replace('T',' '),
+                endTime: item.data().endTime.replace('T',' '),
+                from: item.data().from,
+                price: (item.data().price+' USD').slice(1)
              });
         });
         console.log(formatted_data);
@@ -65,21 +61,28 @@ function CallLogTable(props) {
               {
                 header: 'Start Time',
                 accessor: 'startTime',
-                width: '30%',
+                width: '20%',
                 sortable: true,
               },
               {
                 header: 'End Time',
                 sortable: true,
                 accessor: 'endTime',
-                width: '40%',
+                width: '20%',
               },
               {
-                header: 'Date',
+                header: 'From',
                 sortable: true,
-                accessor: 'dateUpdated',
+                accessor: 'from',
                 width: '20%',
+              },
+              {
+                header: 'Price',
+                sortable: true,
+                accessor: 'price',
+                width: '10%',
               }
+
             ],
             data: data,
             downIcon: <i className="fa fa-down"/>,
@@ -93,7 +96,7 @@ function CallLogTable(props) {
     };
 
     return (
-        <div style={{padding: 50}}>
+        <div style={{padding: 20}}>
             { tableProps ? <ReactScrollTable {...tableProps}/> : null}
         </div>);
 }

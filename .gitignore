@@ -7,6 +7,7 @@
 
 #config
 */firebase/firebaseconfig.js
+/firebase-debug.log
 
 # testing
 /coverage
