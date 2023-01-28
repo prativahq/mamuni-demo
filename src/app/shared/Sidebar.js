@@ -60,7 +60,7 @@ class Sidebar extends Component {
   render() {
     return (
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
-        {auth.currentUser.email === "test@gmail.com" ? <ul className="nav">
+        <ul className="nav">
           {/* 
          
 <li className="nav-item nav-profile">
@@ -247,14 +247,7 @@ class Sidebar extends Component {
               </ul>
             </Collapse>
           </li> */}
-        </ul> : <ul className='nav'>
-          <li className={this.isPathActive('/reports') ? 'nav-item active' : 'nav-item'}>
-            <Link className="nav-link" to="/reports">
-              <span className="menu-title"><Trans>Reports</Trans></span>
-              <i className="mdi mdi-chart-bar menu-icon"></i>
-            </Link>
-          </li>
-        </ul>}
+        </ul> 
       </nav>
     );
   }
