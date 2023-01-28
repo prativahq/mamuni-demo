@@ -40,7 +40,7 @@ const Navbar = (props) => {
   return (
     <nav className="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <Link className="navbar-brand brand-logo" to="/"><img style={{ height: "50px", width: "calc(300px - 120px )" }} src={require('../../assets/images/prommatic-logo.png')} alt="logo" /></Link>
+        <Link className="navbar-brand brand-logo" to="/"><img style={{ height: "50px", width: "50px" }} src={require('../../assets/images/Mamuni logo transparent.png')} alt="logo" /></Link>
         {/* <Link className="navbar-brand brand-logo-mini" to="/"><img src={require('../../assets/images/logo.jpeg')} alt="logo" /></Link> */}
       </div>
       <div className="navbar-menu-wrapper d-flex align-items-stretch">
@@ -57,7 +57,7 @@ const Navbar = (props) => {
           </form>
         </div>
         <ul className="navbar-nav navbar-nav-right">
-          <li className="nav-item nav-logout d-none d-lg-block">
+          {/* <li className="nav-item nav-logout d-none d-lg-block">
             <a className="nav-link" href="!#" onClick={event => event.preventDefault()}>
               <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-magnify"></i>
             </a>
@@ -91,7 +91,7 @@ const Navbar = (props) => {
             <a className="nav-link" href="#!" onClick={e => e.preventDefault()}>
               <i style={{ fontSize: "25px", color: "#A962FF" }} className="mdi mdi-table menu-icon"></i>
             </a>
-          </li>
+          </li> */}
           <li className="nav-item nav-profile">
             <Dropdown alignRight>
               <Dropdown.Toggle className="nav-link">
@@ -105,7 +105,7 @@ const Navbar = (props) => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="navbar-dropdown">
-                <Dropdown.Item href="!#" onClick={evt => evt.preventDefault()}>
+                {/* <Dropdown.Item href="!#" onClick={evt => evt.preventDefault()}>
                   <i className="mdi mdi-account-card-details mr-2 text-success"></i>
                   <Trans>Profile</Trans>
                 </Dropdown.Item>
@@ -114,7 +114,7 @@ const Navbar = (props) => {
                     <i className="mdi mdi-access-point mr-2 text-info"></i>
                     <Trans>Activate Token</Trans>
                   </a>
-                </Dropdown.Item>
+                </Dropdown.Item> */}
                 <Dropdown.Item href="!#" onClick={evt => evt.preventDefault()}>
                   <Link onClick={() => auth.signOut()} style={{ textDecoration: "none", color: "black" }}>
                     <i className="mdi mdi-logout mr-2 text-primary"></i>

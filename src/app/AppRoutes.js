@@ -9,6 +9,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 const CallLogs = lazy(() => import('./call_logs/CallLogs'));
+const DfLogs = lazy(() => import('./dialogflow_logs/DfLogs'));
 const Reports = lazy(() => import('./reports/reports'));
 const Insertion_Form = lazy(() => import('./Insertion-Form/Order_Forms'));
 const ChartJs = lazy(() => import('./InsertionOrder/InsertionOrder'));
@@ -49,6 +50,7 @@ const AppRoutes = () => {
         <Route path="/register" component={email === "test@gmail.com" ? Register : ClientReports} />
         <Route path="/client" component={email !== "test@gmail.com" ? ClientReports : Reports} />
         <Route path="/call_logs" component={email === "test@gmail.com" ? CallLogs : ClientReports} />
+        <Route path="/df_logs" component={DfLogs} />
       </Switch>
     </Suspense>
   );
