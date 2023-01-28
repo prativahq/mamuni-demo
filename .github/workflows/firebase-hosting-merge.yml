@@ -6,14 +6,13 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - prod
+env:
+   CI: ""
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: npm test:ci
-        env:
-         CI: ""
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
