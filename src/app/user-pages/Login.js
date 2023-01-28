@@ -79,10 +79,12 @@ const Login = () => {
         <div className="row w-100 justify-content-center">
           <div className="col-lg-4" style={{ width: "100%" }}>
             <div className="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div className="brand-logo">
-                <img src={require("../../assets/images/prommatic-logo.png")} alt="logo" />
+              <div className="brand-logo" style={{display: 'flex', justifyContent: 'center'}}>
+                <img src={require("../../assets/images/Mamuni logo transparent.png")} alt="logo" />
               </div>
-              <h4>Hello! let's get started</h4>
+              <div style={{display: 'flex', justifyContent: 'center'}}>
+                <h4>Hello! let's get started</h4>
+              </div>
               <h6 className="font-weight-light">Sign in to continue.</h6>
               <Form className="pt-3">
                 <Form.Group className="d-flex search-field">

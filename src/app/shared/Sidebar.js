@@ -60,7 +60,7 @@ class Sidebar extends Component {
   render() {
     return (
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
-        {auth.currentUser.email === "test@gmail.com" ? <ul className="nav">
+        <ul className="nav">
           {/* 
          
 <li className="nav-item nav-profile">
@@ -79,9 +79,12 @@ class Sidebar extends Component {
           
         
         */}
+
+        {/* _______________________ SIDEBAR ITEMS START __________________________________________________________________________________________________________________________________________________________________________________________________________________________ */}
+
           <li className={this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item'}>
             <Link className="nav-link" to="/dashboard">
-              <span className="menu-title"><Trans>Overview</Trans></span>
+              <span className="menu-title"><Trans>Mamuni</Trans></span>
               <i className="mdi mdi-home menu-icon"></i>
             </Link>
           </li>
@@ -91,7 +94,13 @@ class Sidebar extends Component {
               <i className="mdi mdi-home menu-icon"></i>
             </Link>
           </li>
-          <li className={this.isPathActive('/charts') ? 'nav-item active' : 'nav-item'}>
+          <li className={this.isPathActive('/df_logs') ? 'nav-item active' : 'nav-item'}>
+            <Link className="nav-link" to="/df_logs">
+              <span className="menu-title"><Trans>Conversations</Trans></span>
+              <i className="mdi mdi-home menu-icon"></i>
+            </Link>
+          </li>
+          {/* <li className={this.isPathActive('/charts') ? 'nav-item active' : 'nav-item'}>
             <Link className="nav-link" to="/charts/chart-js">
               <span className="menu-title"><Trans>Insertion Order</Trans></span>
               <i className="mdi mdi-table-large menu-icon"></i>
@@ -138,7 +147,9 @@ class Sidebar extends Component {
               <span className="menu-title"><Trans>History</Trans></span>
               <i className="mdi mdi-history menu-icon"></i>
             </Link>
-          </li>
+          </li> */}
+
+          {/* _______________________ SIDEBAR ITEMS END __________________________________________________________________________________________________________________________________________________________________________________________________________________________ */}
 
 
           {/* <li className={ this.isPathActive('/tables') ? 'nav-item active' : 'nav-item' }>
@@ -236,14 +247,7 @@ class Sidebar extends Component {
               </ul>
             </Collapse>
           </li> */}
-        </ul> : <ul className='nav'>
-          <li className={this.isPathActive('/reports') ? 'nav-item active' : 'nav-item'}>
-            <Link className="nav-link" to="/reports">
-              <span className="menu-title"><Trans>Reports</Trans></span>
-              <i className="mdi mdi-chart-bar menu-icon"></i>
-            </Link>
-          </li>
-        </ul>}
+        </ul> 
       </nav>
     );
   }

@@ -9,6 +9,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 const CallLogs = lazy(() => import('./call_logs/CallLogs'));
+const DfLogs = lazy(() => import('./dialogflow_logs/DfLogs'));
 const Reports = lazy(() => import('./reports/reports'));
 const Insertion_Form = lazy(() => import('./Insertion-Form/Order_Forms'));
 const ChartJs = lazy(() => import('./InsertionOrder/InsertionOrder'));
@@ -41,14 +42,15 @@ const AppRoutes = () => {
     <Suspense fallback={<Spinner />}>
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route path="/dashboard" component={email === "test@gmail.com" ? Dashboard : ClientReports} />
-        <Route path="/charts/chart-js" component={email === "test@gmail.com" ? ChartJs : ClientReports} />
-        <Route path="/insertion-form" component={email === "test@gmail.com" ? Insertion_Form : ClientReports} />
-        <Route path="/reports" component={email === "test@gmail.com" ? Reports : ClientReports} />
-        <Route path="/cards" component={email === "test@gmail.com" ? Insertion_cards : ClientReports} />
-        <Route path="/register" component={email === "test@gmail.com" ? Register : ClientReports} />
-        <Route path="/client" component={email !== "test@gmail.com" ? ClientReports : Reports} />
-        <Route path="/call_logs" component={email === "test@gmail.com" ? CallLogs : ClientReports} />
+        <Route path="/dashboard" component={ Dashboard } />
+        <Route path="/charts/chart-js" component={ ChartJs } />
+        <Route path="/insertion-form" component={Insertion_Form } />
+        <Route path="/reports" component={Reports } />
+        <Route path="/cards" component={Insertion_cards } />
+        <Route path="/register" component={Register } />
+        <Route path="/client" component={ClientReports } />
+        <Route path="/call_logs" component={CallLogs } />
+        <Route path="/df_logs" component={DfLogs} />
       </Switch>
     </Suspense>
   );
