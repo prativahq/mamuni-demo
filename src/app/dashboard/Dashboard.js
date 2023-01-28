@@ -274,7 +274,7 @@ export class Dashboard extends Component {
           <h3 className="page-title">
             <span onClick={() => console.log(auth.currentUser)} className="page-title-icon bg-gradient-primary text-white mr-2">
               <i className="mdi mdi-home"></i>
-            </span> Overview </h3>
+            </span> Mamuni </h3>
           {/* <nav aria-label="breadcrumb">
             <ul className="breadcrumb">
               <li className="breadcrumb-item active" aria-current="page">
@@ -318,6 +318,7 @@ export class Dashboard extends Component {
             </div>
           </div>
         </div> */}
+
         <div className="row">
           <div className="col-md-7 grid-margin stretch-card">
             {/* <div className="card">
@@ -345,6 +346,7 @@ export class Dashboard extends Component {
               </div>
             </div> */}
           </div>
+
           <div className="col-md-5 grid-margin stretch-card">
             {/* <div className="card">
               <div className="card-body">
@@ -370,7 +372,8 @@ export class Dashboard extends Component {
             </div> */}
           </div>
         </div>
-        <Dropdown style={{marginBottom: "20px"}}>
+
+        {/* <Dropdown style={{marginBottom: "20px"}}>
           <Dropdown.Toggle variant="btn btn-outline-primary" id="dropdownMenuOutlineButton2">
             Select Overview
           </Dropdown.Toggle>
@@ -379,8 +382,10 @@ export class Dashboard extends Component {
             <Dropdown.Divider></Dropdown.Divider>
             <Dropdown.Item>Created New Workspace</Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
-        <div className="row">
+        </Dropdown> */}
+        
+        {/* ------------------- DUMMY TABLE START ----------------------------------------------------------- */}
+        {/* <div className="row">
           <div className="col-12 grid-margin">
             <div className="card">
               <div className="card-body">
@@ -447,7 +452,21 @@ export class Dashboard extends Component {
               </div>
             </div>
           </div>
+        </div> */}
+        {/* ------------------- DUMMY TABLE END ----------------------------------------------------------- */}
+        
+        {/* ------------------- DIALOGFLOW IFRAME START ------------------------------------------------------------------ */}
+        <div
+          style={{display: 'flex', justifyContent: 'center'}}
+        >
+          <iframe
+              allow="microphone;"
+              width="80%"
+              height="700"
+              src="https://console.dialogflow.com/api-client/demo/embedded/2b981175-561f-4554-9ee8-376ddc050a77">
+          </iframe>
         </div>
+        {/* ------------------- DIALOGFLOW IFRAME END ------------------------------------------------------------------ */}
         <div className="row">
           {/* <div className="col-lg-5 grid-margin stretch-card">
             <div className="card">
